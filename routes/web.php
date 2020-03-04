@@ -12,13 +12,22 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
-Route::get('admin/', function () {
-    return view('admin.dashboard');
+Route::get('admin', function () {
+    return view('dashboard.dashboard');
+});
+Route::get('admin/lapangan', function () {
+    return view('admin.lapangan');
+});
+Route::get('admin/booking', function () {
+    return view('admin.booking');
+});
+Route::get('admin/users', function () {
+    return view('admin.users');
 });
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+// Route::get('/admin', 'HomeController@index')->name('admin');
