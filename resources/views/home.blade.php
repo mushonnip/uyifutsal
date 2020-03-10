@@ -16,6 +16,10 @@
 @section('content')
 
 <div class="container">
+    <div class="text-center">
+        <img src="{{asset('img/full-team.svg')}}" alt="" srcset="" width="750px" class="img-fluid">
+        <h2 class="text-center">Selamat Datang Di Website Kami</h2>
+    </div>
     <hr>
     <h2 class="text-center">Lapangan UYI Futsal</h2>
     <div class="card-deck">

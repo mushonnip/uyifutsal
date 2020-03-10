@@ -15,19 +15,29 @@ Route::get('/', function () {
     return view('home');
 });
 
-Route::get('admin', function () {
-    return view('dashboard.dashboard');
+Route::group(['prefix' => 'dashboard'], function () {
+    Route::get('admin', function () {
+        return view('dashboard.dashboard');
+    });
+    Route::get('admin/lapangan', function () {
+        return view('dashboard.admin.lapangan');
+    });
+    Route::get('admin/booking', function () {
+        return view('dashboard.admin.booking');
+    });
+    Route::get('admin/users', function () {
+        return view('dashboard.admin.users');
+    });
 });
-Route::get('admin/lapangan', function () {
-    return view('admin.lapangan');
-});
-Route::get('admin/booking', function () {
-    return view('admin.booking');
-});
-Route::get('admin/users', function () {
-    return view('admin.users');
+
+Route::get('detail', function () {
+    return view('detail');
 });
 
 Auth::routes();
 
 // Route::get('/admin', 'HomeController@index')->name('admin');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
