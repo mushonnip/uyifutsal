@@ -1,0 +1,1 @@
+web: gunicorn uyifutsal.wsgi --log-file -

@@ -1,5 +1,4 @@
 import os
-import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -14,7 +13,7 @@ SECRET_KEY = 'a$=r7k6earvao63%k#twoxlk048@kgae1of3h1%hm)4zqvcsr&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['uyifutsal.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
@@ -112,6 +111,3 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-
-# Activate Django-Heroku.
-django_heroku.settings(locals())
