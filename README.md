@@ -22,10 +22,10 @@ $ python manage.py runserver
 Lorem ipsum
 
 ## Demo
-This app already deployed in Heroku
-Base URL: https://uyifutsal.herokuapp.com/
-Wanna try the admin panel? just add ```admin/``` next to Base URL
-Admin Username: admin
-Admin Password: admin12345
+This app already deployed in Heroku<br>
+Base URL: https://uyifutsal.herokuapp.com/ <br>
+Wanna try the admin panel? just add ```admin/``` next to Base URL<br>
+Admin Username: admin<br>
+Admin Password: admin12345<br>
 
 
