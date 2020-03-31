@@ -24,7 +24,7 @@ Lorem ipsum
 ## Demo
 This app already deployed in Heroku
 Base URL: https://uyifutsal.herokuapp.com/
-Wanna try the admin panel? just add ```admin/`` next to Base URL
+Wanna try the admin panel? just add ```admin/``` next to Base URL
 Admin Username: admin
 Admin Password: admin12345
 
