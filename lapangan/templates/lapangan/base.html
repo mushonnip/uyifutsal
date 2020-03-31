@@ -1,0 +1,56 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>
+        {% block title %}
+
+        {% endblock title %}
+    </title>
+    <!-- MDB icon -->
+    <link rel="icon" href="{% static 'mdb/img/favicon.ico' %}" type="image/x-icon">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="{% static 'mdb/css/bootstrap.min.css' %}">
+    <!-- Material Design Bootstrap -->
+    <link rel="stylesheet" href="{% static 'mdb/css/mdb.min.css' %}">
+    <!-- Your custom styles (optional) -->
+
+    {% block css %}
+
+    {% endblock css %}
+
+    <link rel="stylesheet" href="{% static 'mdb/css/style.css' %}">
+</head>
+
+<body>
+
+
+    {% block body %}
+
+    {% endblock body %}
+
+    <!-- jQuery -->
+    <script type="text/javascript" src="{% static 'mdb/js/jquery.min.js' %}"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="{% static 'mdb/js/popper.min.js' %}"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="{% static 'mdb/js/bootstrap.min.js' %}"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="{% static 'mdb/js/mdb.min.js' %}"></script>
+    <!-- Your custom scripts (optional) -->
+
+    {% block js %}
+
+    {% endblock js %}
+
+
+</body>
+
+</html>

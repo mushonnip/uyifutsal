@@ -21,7 +21,7 @@ ALLOWED_HOSTS = ['uyifutsal.herokuapp.com', '127.0.0.1']
 INSTALLED_APPS = [
     # General use templates & template tags (should appear first)
     'adminlte3',
-     # Optional: Django admin theme (must be before django.contrib.admin)
+    # Optional: Django admin theme (must be before django.contrib.admin)
     'adminlte3_theme',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -29,6 +29,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'lapangan',
+    'uyifutsal'
 ]
 
 MIDDLEWARE = [
@@ -111,5 +113,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
-MEDIA_URL = '/images/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static")
+]

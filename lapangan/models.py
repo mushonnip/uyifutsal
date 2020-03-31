@@ -4,7 +4,9 @@ from django.contrib.auth.models import User
 
 class Lapangan(models.Model):
     nama = models.CharField(max_length=100)
-    deskripsi = models.CharField()
+    gambar = models.ImageField(upload_to='images/lapangan/', max_length=None,
+                               default='images/lapangan/no_img.jpeg', blank=True)
+    deskripsi = models.CharField(max_length=100)
 
     def __str__(self):
         return self.nama
