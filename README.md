@@ -18,7 +18,7 @@ $ python manage.py migrate
 $ python manage.py runserver
 ```
 
-## Features
+## Features & TODO
 - [x] Tampilan admin
 - [x] CRUD Lapangan
 - [x] CRUD User
