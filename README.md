@@ -19,7 +19,11 @@ $ python manage.py runserver
 ```
 
 ## Features
-Lorem ipsum
+- [x] Tampilan admin
+- [x] CRUD Lapangan
+- [x] CRUD User
+- [ ] CRUD Jadwal
+- [ ] Dashboard User
 
 ## Demo
 This app already deployed in Heroku<br>
