@@ -1,4 +1,6 @@
 asgiref==3.2.7
+astroid==2.3.3
+autopep8==1.5
 azure-common==1.1.16
 azure-core==1.3.0
 azure-mgmt-nspkg==3.0.2
@@ -14,12 +16,20 @@ cryptography==2.9
 Django==3.0.5
 django-adminlte3==0.1.2
 django-storages==1.9.1
+gunicorn==20.0.4
 idna==2.9
+isort==4.3.21
+lazy-object-proxy==1.4.3
+mccabe==0.6.1
 Pillow==7.1.1
+psycopg2==2.8.4
+pycodestyle==2.5.0
 pycparser==2.20
+pylint==2.4.4
 python-dateutil==2.8.1
 pytz==2019.3
 requests==2.23.0
 six==1.14.0
 sqlparse==0.3.1
 urllib3==1.25.8
+wrapt==1.11.2
