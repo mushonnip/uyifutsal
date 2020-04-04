@@ -2,11 +2,18 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+class Rumput(models.Model):
+    jenis_rumput = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.jenis_rumput
+
+
 class Lapangan(models.Model):
     nama = models.CharField(max_length=100)
     gambar = models.ImageField(upload_to='images/lapangan/', max_length=None,
                                default='images/lapangan/no_img.jpeg', blank=True)
-    deskripsi = models.CharField(max_length=100)
+    jenis_rumput = models.ForeignKey(Rumput, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.nama

@@ -1,0 +1,178 @@
+{% extends 'lapangan/base.html' %}
+{% load static %}
+
+
+{% block title %}
+Home | UYI Futsal
+{% endblock title %}
+
+{% block css %}
+<style>
+    .navbar {
+        background-color: #6f7782;
+    }
+
+    footer.page-footer {
+        background-color: #6f7782;
+    }
+</style>
+{% endblock css %}
+
+{% block body %}
+
+
+<!--Main Navigation-->
+<header>
+
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#"><strong>Navbar</strong></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Jadwal</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav nav-flex-icons">
+                    <li class="nav-item">
+                        <a class="nav-link"><i class="fab fa-facebook-f"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"><i class="fab fa-twitter"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"><i class="fab fa-instagram"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+</header>
+<!--Main Navigation-->
+
+<!--Main Layout-->
+<main>
+
+    <div class="container">
+
+        <!--Section: Blog v.4-->
+        <section class="section mt-5 pb-3 wow fadeIn">
+
+            <!--Grid row-->
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- Card -->
+                    <div class="card card-cascade wider reverse">
+
+                        <!-- Card image -->
+                        <div class="view view-cascade overlay">
+                            <img class="card-img-top" src="{{ lapangan.gambar.url }}" alt="Card image cap">
+                            <a href="#!">
+                                <div class="mask rgba-white-slight"></div>
+                            </a>
+                        </div>
+
+                        <!--Post data-->
+                        <div class="card-body card-body-cascade text-center">
+                            <h2><a><strong>{{ lapangan.nama }}</strong></a></h2>
+                            <br>
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-3 orange-text pb-1">
+                                        <h6><i class="fas fa-sun"></i> 08.00 - 18.00<strong> Rp 80.000
+                                            </strong>
+                                        </h6>
+                                    </div>
+                                    <div class="col-md-6 brown-text pb-1">
+                                        <h6><i class="fas fa-moon"></i> 18.00 - 00.00<strong> Rp 120.000
+                                            </strong>
+                                        </h6>
+                                    </div>
+                                    <div class="col-md-3 green-text pb-1">
+                                        <h6><i class="fas fa-flag"></i><strong> Rumput Sintesis
+                                            </strong>
+                                        </h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Post data-->
+                    </div><br>
+                    <hr class="mb-5">
+                    <h5>Jadwal</h5>
+                    <div class="md-form">
+                        <input placeholder="Selected date" type="text" id="prefill" class="form-control datepicker"
+                            data-value="now">
+                        <label for="prefill"></label>
+                    </div>
+
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">First</th>
+                                <th scope="col">Last</th>
+                                <th scope="col">Handle</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Mark</td>
+                                <td>Otto</td>
+                                <td>@mdo</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>Jacob</td>
+                                <td>Thornton</td>
+                                <td>@fat</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">3</th>
+                                <td>Larry</td>
+                                <td>the Bird</td>
+                                <td>@twitter</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!--Grid row-->
+
+        </section>
+        <!--Section: Blog v.4-->
+
+        <hr class="mb-5 mt-4">
+
+</main>
+<!--Main Layout-->
+
+
+<!--Footer-->
+
+<!--/.Footer-->
+
+
+{% block js %}
+<script>$('#prefill').pickadate({
+        // disable: 
+        min: true
+
+    });</script>
+{% endblock js %}
+
+
+
+{% endblock body %}

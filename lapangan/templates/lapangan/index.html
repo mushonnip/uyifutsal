@@ -107,23 +107,19 @@ Home | UYI Futsal
                         <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
+                        <a class="nav-link" href="#">About</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Profile</a>
+                        <a class="nav-link" href="#">Jadwal</a>
                     </li>
                 </ul>
-                <form class="form-inline">
-                    <div class="md-form my-0">
-                        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-                    </div>
-                </form>
+
             </div>
         </div>
     </nav>
 
     <!-- Intro Section -->
-    <div class="view jarallax" data-jarallax='{"speed": 0.2}' style="background-image: url(media/images/preview.jpeg); 
+    <div class="view jarallax" data-jarallax='{"speed": 0.2}' style="background-image: url({% static 'mdb/img/preview.jpeg' %}); 
         background-repeat: no-repeat; background-size: cover; background-position: center center;">
         <div class="mask rgba-black-light">
             <div class="container h-100 d-flex justify-content-center align-items-center">
@@ -193,17 +189,15 @@ Home | UYI Futsal
                 <!--Grid column-->
                 <div class="col-lg-7 mb-4">
                     <h4 class="mb-4"><strong>{{ lapangan.nama }}</strong></h4>
-                    <a href="" class="orange-text">
-                        <h6 class="pb-1"><i class="fas fa-sun"></i> 08.00 - 18.00<strong> Rp 80.000 </strong></h6>
-                    </a>
-                    <a href="" class="brown-text">
-                        <h6 class="pb-1"><i class="fas fa-moon"></i> 18.00 - 00.00<strong> Rp 120.000 </strong></h6>
-                    </a>
-                    <a href="" class="green-text">
-                        <h6 class="pb-1"><i class="fas fa-flag"></i><strong> Rumput Sintesis </strong></h6>
-                    </a>
+                    <h6 class="orange-text pb-1"><i class="fas fa-sun"></i> 08.00 - 18.00<strong> Rp 80.000 </strong>
+                    </h6>
+                    <h6 class="brown-text pb-1"><i class="fas fa-moon"></i> 18.00 - 00.00<strong> Rp 120.000 </strong>
+                    </h6>
+                    <h6 class="green-text pb-1"><i class="fas fa-flag"></i><strong> Rumput {{ lapangan.jenis_rumput }}
+                        </strong></h6>
+
                     <!-- <p>{{ lapangan.deskripsi }}</p> -->
-                    <a class="btn btn-primary">DETAIL</a>
+                    <a href="{% url 'lapangan:detail' lapangan.id %}" class="btn btn-primary">DETAIL</a>
                 </div>
                 <!--Grid column-->
             </div>
@@ -227,10 +221,10 @@ Home | UYI Futsal
 
                     <!--Numbers-->
                     <li class="page-item active"><a class="page-link waves-effect waves-effect">1</a></li>
-                    <li class="page-item"><a class="page-link waves-effect waves-effect">2</a></li>
+                    <!-- <li class="page-item"><a class="page-link waves-effect waves-effect">2</a></li>
                     <li class="page-item"><a class="page-link waves-effect waves-effect">3</a></li>
                     <li class="page-item"><a class="page-link waves-effect waves-effect">4</a></li>
-                    <li class="page-item"><a class="page-link waves-effect waves-effect">5</a></li>
+                    <li class="page-item"><a class="page-link waves-effect waves-effect">5</a></li> -->
 
                     <!--Arrow right-->
                     <li class="page-item">
@@ -251,16 +245,15 @@ Home | UYI Futsal
         <!-- Section: Product detail -->
         <div class="divider-new">
 
-            <h3 class="h3-responsive font-weight-bold blue-text mx-3">Review Pelanggan</h3>
+            <h3 class="h3-responsive font-weight-bold blue-text mx-3">Ulasan Pelanggan</h3>
 
         </div>
 
-        <!-- Product Reviews -->
+        <!-- Ulasan Pelanggan -->
         <section id="reviews" class="pb-5">
 
             <!-- Main wrapper -->
             <div class="comments-list text-center text-md-left">
-
                 <!-- First row -->
                 <div class="row mb-5">
 
@@ -286,23 +279,15 @@ Home | UYI Futsal
                         <ul class="rating">
 
                             <li>
-
                                 <i class="fas fa-star blue-text"></i>
-
                             </li>
 
                             <li>
-
                                 <i class="fas fa-star blue-text"></i>
-
                             </li>
-
                             <li>
-
                                 <i class="fas fa-star blue-text"></i>
-
                             </li>
-
                             <li>
 
                                 <i class="fas fa-star blue-text"></i>
@@ -344,179 +329,10 @@ Home | UYI Futsal
 
                 </div>
                 <!-- First row -->
-
-                <!-- Second row -->
-                <div class="row mb-5">
-
-                    <!-- Image column -->
-                    <div class="col-sm-2 col-12 mb-3">
-
-                        <img src="https://mdbootstrap.com/img/Photos/Avatars/img (30).jpg" alt="sample image"
-                            class="avatar rounded-circle z-depth-1-half">
-
-                    </div>
-                    <!-- Image column -->
-
-                    <!-- Content column -->
-                    <div class="col-sm-10 col-12">
-
-                        <a>
-
-                            <h5 class="user-name font-weight-bold">Lily Brown</h5>
-
-                        </a>
-
-                        <!-- Rating -->
-                        <ul class="rating">
-
-                            <li>
-
-                                <i class="fas fa-star blue-text"></i>
-
-                            </li>
-
-                            <li>
-
-                                <i class="fas fa-star blue-text"></i>
-
-                            </li>
-
-                            <li>
-
-                                <i class="fas fa-star blue-text"></i>
-
-                            </li>
-
-                            <li>
-
-                                <i class="fas fa-star blue-text"></i>
-
-                            </li>
-
-                            <li>
-
-                                <i class="fas fa-star blue-text"></i>
-
-                            </li>
-
-                        </ul>
-
-                        <div class="card-data">
-
-                            <ul class="list-unstyled mb-1">
-
-                                <li class="comment-date font-small grey-text">
-
-                                    <i class="far fa-clock-o"></i> 05/10/2015</li>
-
-                            </ul>
-
-                        </div>
-
-                        <p class="dark-grey-text article">Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                            laboris nisi ut
-                            aliquip ex ea commodo consequat. Duis
-
-                            aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                            pariatur.
-                            Excepteur
-
-                            sint occaecat cupidatat non proident.</p>
-
-                    </div>
-                    <!-- Content column -->
-
-                </div>
-                <!-- Second row -->
-
-                <!-- Third row -->
-                <div class="row mb-5">
-
-                    <!-- Image column -->
-                    <div class="col-sm-2 col-12 mb-3">
-
-                        <img src="https://mdbootstrap.com/img/Photos/Avatars/img (28).jpg" alt="sample image"
-                            class="avatar rounded-circle z-depth-1-half">
-
-                    </div>
-                    <!-- Image column -->
-
-                    <!-- Content column -->
-                    <div class="col-sm-10 col-12">
-
-                        <a>
-
-                            <h5 class="user-name font-weight-bold">Martha Smith</h5>
-
-                        </a>
-
-                        <!-- Rating -->
-                        <ul class="rating">
-
-                            <li>
-
-                                <i class="fas fa-star blue-text"></i>
-
-                            </li>
-
-                            <li>
-
-                                <i class="fas fa-star blue-text"></i>
-
-                            </li>
-
-                            <li>
-
-                                <i class="fas fa-star blue-text"></i>
-
-                            </li>
-
-                            <li>
-
-                                <i class="fas fa-star blue-text"></i>
-
-                            </li>
-
-                            <li>
-
-                                <i class="fas fa-star blue-text"></i>
-
-                            </li>
-
-                        </ul>
-
-                        <div class="card-data">
-
-                            <ul class="list-unstyled mb-1">
-
-                                <li class="comment-date font-small grey-text">
-
-                                    <i class="far fa-clock-o"></i> 05/10/2015</li>
-
-                            </ul>
-
-                        </div>
-
-                        <p class="dark-grey-text article">Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                            laboris nisi ut
-                            aliquip ex ea commodo consequat. Duis
-
-                            aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                            pariatur.
-                            Excepteur
-
-                            sint occaecat cupidatat non proident.</p>
-
-                    </div>
-                    <!-- Content column -->
-
-                </div>
-                <!-- Third row -->
-
             </div>
             <!-- Main wrapper -->
-
         </section>
+        <!-- Ulasan Pelanggan -->
 
 
     </div>
@@ -534,8 +350,9 @@ Home | UYI Futsal
 
             <!--First column-->
             <div class="col-md-3">
-                <h5 class="text-uppercase font-weight-bold">About author </h5>
-                <p>Here you can use rows and columns here to organize your footer content.</p>
+                <h5 class="text-uppercase font-weight-bold">Alamat</h5>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                    Earum recusandae commodi modi repudiandae quia vero.</p>
             </div>
             <!--/.First column-->
 
@@ -592,17 +409,13 @@ Home | UYI Futsal
 
         <a class="btn-floating btn-fb"><i class="fab fa-facebook-f"> </i></a>
         <a class="btn-floating btn-tw"><i class="fab fa-twitter"> </i></a>
-        <a class="btn-floating btn-gplus"><i class="fab fa-google-plus-g"> </i></a>
-        <a class="btn-floating btn-li"><i class="fab fa-linkedin-in"> </i></a>
-        <a class="btn-floating btn-dribbble"><i class="fab fa-dribbble"> </i></a>
-
     </div>
     <!--/.Social buttons-->
 
     <!--Copyright-->
     <div class="footer-copyright py-3 text-center">
         <div class="container-fluid">
-            © 2015 Copyright: <a href="https://mdbootstrap.com/docs/jquery/"> MDBootstrap.com </a>
+            © 2020 <a href="http://uyifutsal.herokuapp.com/"> UYI Futsal </a>
 
         </div>
     </div>
