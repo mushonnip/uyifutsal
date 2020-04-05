@@ -27,7 +27,7 @@ $ python manage.py runserver
 
 ## Demo
 This app already deployed in Heroku<br>
-Base URL: https://uyifutsal.herokuapp.com/ <br>
+Base URL: https://uyifutsal.azurewebsites.net/ <br>
 Wanna try the admin panel? just add ```admin/``` next to Base URL<br>
 Admin Username: admin<br>
 Admin Password: admin12345<br>

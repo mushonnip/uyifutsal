@@ -120,31 +120,26 @@ Home | UYI Futsal
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">First</th>
-                                <th scope="col">Last</th>
-                                <th scope="col">Handle</th>
+                                <th scope="col">Jam</th>
+                                <th scope="col">Harga</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Booking</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Larry</td>
-                                <td>the Bird</td>
-                                <td>@twitter</td>
-                            </tr>
+                            {{ Harga.harga }}
+                            <script>
+
+                                var jam = ['08.00 - 9.00', '9.00 - 10.00', '10.00 - 11.00', '11.00 - 12.00', '12.00 - 13.00', '13.00 - 14.00', '14.00 - 15.00', '15.00 - 16.00', '16.00 - 17.00', '17.00 - 18.00', '18.00 - 19.00', '19.00 - 20.00', '20.00 - 21.00', '21.00 - 22.00', '22.00 - 23.00', '23.00 - 00.00'];
+                                var x;
+                                var harga = "{{ Harga.harga }}"
+
+                                for (x of jam) {
+                                    document.write(
+                                        "<tr><th scope=\"row\">" + x +
+                                        "</th><td>" + harga + "</td><td>Otto</td><td>@mdo</td></tr>");
+                                }
+                            </script>
                         </tbody>
                     </table>
                 </div>

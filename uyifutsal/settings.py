@@ -13,7 +13,8 @@ SECRET_KEY = 'a$=r7k6earvao63%k#twoxlk048@kgae1of3h1%hm)4zqvcsr&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['uyifutsal.azurewebsites.net', '127.0.0.1']
+ALLOWED_HOSTS = ['mushonnip.engineer',
+                 'uyifutsal.azurewebsites.net', '127.0.0.1']
 
 
 # Application definition

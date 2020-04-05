@@ -1,6 +1,7 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 from django.views import generic
-from .models import Lapangan
+from .models import Lapangan, Waktu
 
 
 class IndexView(generic.ListView):

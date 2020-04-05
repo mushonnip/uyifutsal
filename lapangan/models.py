@@ -28,7 +28,7 @@ class Harga(models.Model):
 
 class Waktu(models.Model):
     harga = models.ForeignKey(Harga, on_delete=models.CASCADE)
-    waktu = models.DateTimeField('waku main')
+    waktu = models.CharField(max_length=100)
 
     def __str__(self):
         return self.waktu
@@ -38,3 +38,12 @@ class Booking(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     lapangan = models.ForeignKey(Lapangan, on_delete=models.CASCADE)
     waktu = models.ForeignKey(Waktu, on_delete=models.CASCADE)
+
+
+class Jadwal(models.Model):
+    tanggal = models.DateField()
+    lapangan = models.ForeignKey(Lapangan, on_delete=models.CASCADE)
+    waktu = models.ForeignKey(Waktu, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.tanggal

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Lapangan, Rumput
+from .models import Lapangan, Rumput, Waktu, Harga
 
 
 class LapanganAdmin(admin.ModelAdmin):
@@ -9,3 +9,5 @@ class LapanganAdmin(admin.ModelAdmin):
 
 admin.site.register(Lapangan, LapanganAdmin)
 admin.site.register(Rumput)
+admin.site.register(Waktu)
+admin.site.register(Harga)
