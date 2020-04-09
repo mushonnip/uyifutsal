@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     'adminlte3',
     # Optional: Django admin theme (must be before django.contrib.admin)
     'adminlte3_theme',
+    'uyifutsal',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -31,7 +32,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'lapangan',
-    'uyifutsal',
     'storages'
 ]
 
@@ -51,7 +51,7 @@ ROOT_URLCONF = 'uyifutsal.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -71,18 +71,18 @@ WSGI_APPLICATION = 'uyifutsal.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    # }
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'd53l4seuvmai0f',
-        'USER': 'cquanyavhueuak',
-        'PASSWORD': 'ce37ff9c98322c3947ba7e56596ccbf78e3daf24d9985dfee12de87c3bff765a',
-        'HOST': 'ec2-34-193-232-231.compute-1.amazonaws.com',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #     'NAME': 'd53l4seuvmai0f',
+    #     'USER': 'cquanyavhueuak',
+    #     'PASSWORD': 'ce37ff9c98322c3947ba7e56596ccbf78e3daf24d9985dfee12de87c3bff765a',
+    #     'HOST': 'ec2-34-193-232-231.compute-1.amazonaws.com',
+    #     'PORT': '5432',
+    # }
 }
 
 

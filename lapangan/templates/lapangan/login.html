@@ -1,16 +1,21 @@
-{% include 'base.html' %}
+{% include 'lapangan/base.html' %}
 {% load i18n static %}
 
 
 
 {% block head %}
-<title>Login</title>
+<title>Login - UYI Futsal</title>
 <style>
     html,
     body,
     header,
     .view {
         height: 100vh;
+    }
+
+    input {
+        padding-bottom: 7px;
+        padding-top: 7px;
     }
 
     @media (max-width: 740px) {
@@ -132,9 +137,8 @@
             <div class="container">
                 <div class="row">
                     <div class="col-xl-5 col-lg-6 col-md-10 col-sm-12 mx-auto mt-lg-5">
-
                         <!--Form with header-->
-                        <form action="{{ app_path }}" method="post" id="login-form" autocomplete="off">{% csrf_token %}
+                        <form action="{{ app_path }}" method="post" id="login-form">{% csrf_token %}
                             <div class="card wow fadeIn" data-wow-delay="0.3s">
                                 <div class="card-body">
 
@@ -145,11 +149,19 @@
 
                                     <!--Body-->
 
+
+                                    {% for message in messages %}
+                                    <div class="alert alert-success" role="alert">
+                                        {{ message }}
+                                    </div>
+                                    {% endfor %}
+
+
                                     <div class="md-form">
                                         <i class="fas fa-user prefix white-text"></i>
                                         <input type="text" id="id_username" class="form-control" name="username"
-                                            placeholder="Username">
-                                        <label for="orangeForm-name">Username</label>
+                                            placeholder="Username" autocomplete="off">
+                                        <label for="id_username">Username</label>
                                         {{ form.username.errors }}
                                     </div>
 
@@ -157,7 +169,7 @@
                                         <i class="fas fa-lock prefix white-text"></i>
                                         <input type="password" id="id_password" class="form-control" name="password"
                                             placeholder="Password">
-                                        <label for="orangeForm-pass">Password</label>
+                                        <label for="id_password">Password</label>
                                         {{ form.password.errors }}
                                     </div>
 
@@ -200,6 +212,7 @@
 {% block js %}
 <script>
     new WOW().init();
+    $("#form").trigger('reset');
 
 </script>
 {% endblock js %}

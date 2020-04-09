@@ -26,7 +26,7 @@ Home | UYI Futsal
 
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
-            <a class="navbar-brand" href="#"><strong>Navbar</strong></a>
+            <a class="navbar-brand" href="/"><strong>UYI Futsal</strong></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -42,16 +42,8 @@ Home | UYI Futsal
                     <li class="nav-item">
                         <a class="nav-link" href="#">Jadwal</a>
                     </li>
-                </ul>
-                <ul class="navbar-nav nav-flex-icons">
                     <li class="nav-item">
-                        <a class="nav-link"><i class="fab fa-facebook-f"></i></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link"><i class="fab fa-twitter"></i></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link"><i class="fab fa-instagram"></i></a>
+                        <a class="nav-link" href="#">Promo</a>
                     </li>
                 </ul>
             </div>
@@ -116,7 +108,12 @@ Home | UYI Futsal
                             data-value="now">
                         <label for="prefill"></label>
                     </div>
-
+                    <p>Filter:</p>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="checkFilter">
+                        <label class="custom-control-label" for="checkFilter">Hanya yang tersedia</label>
+                    </div>
+                    <hr>
                     <table class="table table-striped">
                         <thead>
                             <tr>
@@ -126,22 +123,105 @@ Home | UYI Futsal
                                 <th scope="col">Booking</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            {{ Harga.harga }}
-                            <script>
+                        <tbody class="searchable">
 
-                                var jam = ['08.00 - 9.00', '9.00 - 10.00', '10.00 - 11.00', '11.00 - 12.00', '12.00 - 13.00', '13.00 - 14.00', '14.00 - 15.00', '15.00 - 16.00', '16.00 - 17.00', '17.00 - 18.00', '18.00 - 19.00', '19.00 - 20.00', '20.00 - 21.00', '21.00 - 22.00', '22.00 - 23.00', '23.00 - 00.00'];
-                                var x;
-                                var harga = "{{ Harga.harga }}"
 
-                                for (x of jam) {
-                                    document.write(
-                                        "<tr><th scope=\"row\">" + x +
-                                        "</th><td>" + harga + "</td><td>Otto</td><td>@mdo</td></tr>");
-                                }
-                            </script>
+
+                            <tr>
+                                <th scope="row">08.00 - 09.00</th>
+                                <td>cek</td>
+                                <td><span class="badge badge-primary">Tersedia</span></td>
+                                <td>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="defaultUnchecked">
+                                        <label class="custom-control-label" for="defaultUnchecked"></label>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">09.00 - 10.00</th>
+                                <td>cek</td>
+                                <td><span class="badge badge-danger">Tidak Tersedia</span></td>
+                                <td>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input"
+                                            id="defaultUncheckedDisabled2" disabled>
+                                        <label class="custom-control-label" for="defaultUncheckedDisabled2"></label>
+                                    </div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
+
+                    <!-- bayar -->
+                    <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog"
+                        aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header text-center">
+                                    <h4 class="modal-title w-100 font-weight-bold">Informasi Pembayaran</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body mx-3">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Waktu</th>
+                                                <th scope="col">Harga</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">1</th>
+                                                <td>Mark</td>
+                                                <td>Otto</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">2</th>
+                                                <td>Jacob</td>
+                                                <td>Thornton</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">3</th>
+                                                <td>Larry</td>
+                                                <td>the Bird</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <!-- <div class="md-form mb-5">
+                                        <strong>
+                                            <h4>Lapangan: </h5>
+                                        </strong>
+                                    </div>
+                                    <div class="md-form mb-5">
+                                        <strong>
+                                            <h4>Waktu: </h5>
+                                        </strong>
+                                    </div>
+                                    <div class="md-form mb-4">
+                                        <strong>
+                                            <h4>Total: </h5>
+                                        </strong>
+                                    </div> -->
+
+                                </div>
+                                <div class="modal-footer d-flex justify-content-center">
+                                    <button class="btn btn-primary">Bayar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <a href="" class="btn btn-primary btn-rounded mb-4" data-toggle="modal"
+                            data-target="#modalLoginForm">Pembayaran</a>
+                    </div>
+
+                    <!-- bayar -->
                 </div>
             </div>
             <!--Grid row-->
@@ -161,11 +241,34 @@ Home | UYI Futsal
 
 
 {% block js %}
-<script>$('#prefill').pickadate({
+<script>
+    $('#prefill').pickadate({
         // disable: 
         min: true
 
-    });</script>
+    });
+
+    $(document).ready(function () {
+
+        (function ($) {
+            $('#checkFilter').on('change', function () {
+
+                if (this.checked) {
+                    $('.searchable tr').hide();
+                    $('.searchable tr').filter(function () {
+                        return $(this).find('td').eq(1).text() == "Tersedia"
+                    }).show();
+                } else {
+                    $('.searchable tr').show();
+                }
+
+
+            });
+
+        }(jQuery));
+
+    });
+</script>
 {% endblock js %}
 
 

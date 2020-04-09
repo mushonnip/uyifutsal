@@ -3,7 +3,7 @@
 
 
 {% block title %}
-Home | UYI Futsal
+Home - UYI Futsal
 {% endblock title %}
 
 {% block css %}
@@ -103,14 +103,17 @@ Home | UYI Futsal
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent-7">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
+                    <!-- <li class="nav-item active">
                         <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                    </li>
+                    </li> -->
                     <li class="nav-item">
                         <a class="nav-link" href="#">About</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Jadwal</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Promo</a>
                     </li>
                 </ul>
 
@@ -138,9 +141,11 @@ Home | UYI Futsal
                             <a href="logout/" class="btn btn-outline-white wow fadeInDown"
                                 data-wow-delay="0.4s">LOGOUT</a>
                             {% else %}
-                            <a class="btn btn-outline-white wow fadeInDown" data-wow-delay="0.4s">LOGIN</a>
-                            <a href="a.com" class="btn btn-outline-white wow fadeInDown"
+                            <a href="{% url 'lapangan:login' %}" class="btn btn-outline-white wow fadeInDown"
+                                data-wow-delay="0.4s">LOGIN</a>
+                            <a href="{% url 'lapangan:register' %}" class="btn btn-outline-white wow fadeInDown"
                                 data-wow-delay="0.4s">REGISTER</a>
+
                             {% endif %}
                         </div>
                     </div>
@@ -162,7 +167,7 @@ Home | UYI Futsal
         <section class="section extra-margins pb-3 text-center text-lg-left wow fadeIn" data-wow-delay="0.3s">
 
             <!--Section heading-->
-            <h2 class="font-weight-bold text-center h1 my-5">Lapangan Fulsal Kami</h2>
+            <h2 class="font-weight-bold text-center h1 my-5">Lapangan Futsal Kami</h2>
             <!--Section description-->
             <p class="text-center grey-text mb-5 mx-auto w-responsive note note-info">Tetap junjung sportifitas dalam
                 bermain, tidak
@@ -271,7 +276,7 @@ Home | UYI Futsal
 
                         <a>
 
-                            <h5 class="user-name font-weight-bold">John Doe</h5>
+                            <h5 class="user-name font-weight-bold">John Dfoe</h5>
 
                         </a>
 
@@ -308,21 +313,14 @@ Home | UYI Futsal
 
                                 <li class="comment-date font-small grey-text">
 
-                                    <i class="far fa-clock-o"></i> 05/10/2015</li>
+                                    <i class="far fa-clock-o"></i> 05/04/2020</li>
 
                             </ul>
 
                         </div>
 
-                        <p class="dark-grey-text article">Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                            laboris nisi ut
-                            aliquip ex ea commodo consequat. Duis
-
-                            aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                            pariatur.
-                            Excepteur
-
-                            sint occaecat cupidatat non proident.</p>
+                        <p class="dark-grey-text article">Lapangannya keren, kadang ada potongan harga/ diskon juga,
+                            jadi suka deh booking lapangan disini. Web bookingnya juga luar biasa, mantap!.</p>
 
                     </div>
                     <!-- Content column -->
@@ -351,8 +349,8 @@ Home | UYI Futsal
             <!--First column-->
             <div class="col-md-3">
                 <h5 class="text-uppercase font-weight-bold">Alamat</h5>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                    Earum recusandae commodi modi repudiandae quia vero.</p>
+                <p>Jl. Pahlawan, Bunderan Kijang
+                    Lemah Mekar - Indramayu.</p>
             </div>
             <!--/.First column-->
 
