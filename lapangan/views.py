@@ -75,7 +75,10 @@ def GetJadwal(request):
     return JsonResponse(list_jadwal, safe=False)
 
 def GetWaktu(request):
-    waktu = Waktu.objects.all().order_by('-urutan')
+    waktu = Waktu.objects.all().values()
     list_waktu = list(waktu)
-    return JsonResponse(list_waktu)
+    data = {
+        'waktu': waktu
+    }
+    return JsonResponse(list_waktu, safe=False)
     

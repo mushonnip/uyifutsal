@@ -239,6 +239,7 @@ Home | UYI Futsal
 
 {% block js %}
 <script>
+    var cek;
     $(document).ready(() => {
 
         $('#prefill').pickadate({
@@ -252,10 +253,23 @@ Home | UYI Futsal
             dataType: 'JSON',
             data: { tgl: dateValue },
             success: data => {
+                cek = data;
                 console.log(data);
-                setDataTable(data);
+                // setDataTable(data);
             }
         });
+
+        $.ajax({
+            type: 'get',
+            url: '/get-waktu/',
+            dataType: 'JSON',
+            success: waktuVal => {
+                console.log(waktuVal);
+                setDataTable(waktuVal);
+            }
+        });
+
+
 
         $('.datepicker').on('change', function () {
             dateValue = moment($('.datepicker').val()).format('YYYY-MM-DD');
@@ -267,11 +281,21 @@ Home | UYI Futsal
                 dataType: 'JSON',
                 data: { tgl: dateValue },
                 success: data => {
-                    clearTable();
+                    cek = data;
                     console.log(data);
-                    setDataTable(data);
                 }
             });
+            $.ajax({
+                type: 'get',
+                url: '/get-waktu/',
+                dataType: 'JSON',
+                success: waktuVal => {
+                    clearTable()
+                    console.log(waktuVal);
+                    setDataTable(waktuVal);
+                }
+            });
+
         });
 
     });
@@ -288,20 +312,62 @@ Home | UYI Futsal
         }
     });
 
+    function getHarga(id) {
+        if (id == 1) {
+            harga = '80.000'
+        } else {
+            harga = '120.000'
+        }
+        return harga
+    }
     function setDataTable(data) {
-        data.forEach(element => {
-            $('#mytable').append(`<tr>
-                                <th scope="row">${element.waktu_id}</th>
-                                <td>cek</td>
+        if (cek.length == 0) {
+            data.forEach(element => {
+                $('#mytable').append(`<tr>
+                                <th scope="row">${element.waktu}</th>
+                                <td>${getHarga(element.harga_id)}</td>
                                 <td><span class="badge badge-primary">Tersedia</span></td>
                                 <td>
                                     <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="defaultUnchecked">
-                                        <label class="custom-control-label" for="defaultUnchecked"></label>
+                                        <input type="checkbox" class="custom-control-input" id="${element.id}">
+                                        <label class="custom-control-label" for="${element.id}"></label>
                                     </div>
                                 </td>
                             </tr>`)
-        });
+            }
+            )
+        } else {
+            for (let index = 0; index < cek.length; index++) {
+                data.forEach(element => {
+                    if (element.id == cek[index].waktu_id) {
+                        $('#mytable').append(`<tr>
+                                <th scope="row">${element.waktu}</th>
+                                <td>${getHarga(element.harga_id)}</td>
+                                <td><span class="badge badge-danger">Tidak Tersedia</span></td>
+                                <td>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="${element.id}">
+                                        <label class="custom-control-label" for="${element.id}"></label>
+                                    </div>
+                                </td>
+                            </tr>`)
+                    } else {
+                        $('#mytable').append(`<tr>
+                                <th scope="row">${element.waktu}</th>
+                                <td>${getHarga(element.harga_id)}</td>
+                                <td><span class="badge badge-primary">Tersedia</span></td>
+                                <td>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="${element.id}">
+                                        <label class="custom-control-label" for="${element.id}"></label>
+                                    </div>
+                                </td>
+                            </tr>`)
+                    }
+                });
+            }
+        }
+
     }
 
     function clearTable() {
