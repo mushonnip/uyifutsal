@@ -11,9 +11,13 @@ class HargaAdmin(admin.ModelAdmin):
     list_display = ('nama', 'harga')
 
 
+class JadwalAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'lapangan', 'tanggal', 'waktu')
+
+
 admin.site.register(Lapangan, LapanganAdmin)
 admin.site.register(Rumput)
 admin.site.register(Waktu)
 admin.site.register(Harga, HargaAdmin)
-admin.site.register(Jadwal)
+admin.site.register(Jadwal, JadwalAdmin)
 admin.site.register(Booking)

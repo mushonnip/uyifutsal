@@ -123,11 +123,8 @@ Home | UYI Futsal
                                 <th scope="col">Booking</th>
                             </tr>
                         </thead>
-                        <tbody class="searchable">
-
-
-
-                            <tr>
+                        <tbody class="searchable" id="mytable">
+                            <!-- <tr>
                                 <th scope="row">08.00 - 09.00</th>
                                 <td>cek</td>
                                 <td><span class="badge badge-primary">Tersedia</span></td>
@@ -137,8 +134,8 @@ Home | UYI Futsal
                                         <label class="custom-control-label" for="defaultUnchecked"></label>
                                     </div>
                                 </td>
-                            </tr>
-
+                            </tr> -->
+                            <!-- 
                             <tr>
                                 <th scope="row">09.00 - 10.00</th>
                                 <td>cek</td>
@@ -150,7 +147,7 @@ Home | UYI Futsal
                                         <label class="custom-control-label" for="defaultUncheckedDisabled2"></label>
                                     </div>
                                 </td>
-                            </tr>
+                            </tr> -->
                         </tbody>
                     </table>
 
@@ -242,32 +239,74 @@ Home | UYI Futsal
 
 {% block js %}
 <script>
-    $('#prefill').pickadate({
-        // disable: 
-        min: true
+    $(document).ready(() => {
 
-    });
+        $('#prefill').pickadate({
+            min: true,
+        });
+        var dateValue = moment($('.datepicker').val()).format('YYYY-MM-DD');
+        console.log(dateValue);
+        $.ajax({
+            type: 'get',
+            url: '/get-jadwal/',
+            dataType: 'JSON',
+            data: { tgl: dateValue },
+            success: data => {
+                console.log(data);
+                setDataTable(data);
+            }
+        });
 
-    $(document).ready(function () {
-
-        (function ($) {
-            $('#checkFilter').on('change', function () {
-
-                if (this.checked) {
-                    $('.searchable tr').hide();
-                    $('.searchable tr').filter(function () {
-                        return $(this).find('td').eq(1).text() == "Tersedia"
-                    }).show();
-                } else {
-                    $('.searchable tr').show();
+        $('.datepicker').on('change', function () {
+            dateValue = moment($('.datepicker').val()).format('YYYY-MM-DD');
+            console.clear();
+            console.log(dateValue);
+            $.ajax({
+                type: 'get',
+                url: '/get-jadwal/',
+                dataType: 'JSON',
+                data: { tgl: dateValue },
+                success: data => {
+                    clearTable();
+                    console.log(data);
+                    setDataTable(data);
                 }
-
-
             });
-
-        }(jQuery));
+        });
 
     });
+
+    $('#checkFilter').on('change', function () {
+
+        if (this.checked) {
+            $('.searchable tr').hide();
+            $('.searchable tr').filter(function () {
+                return $(this).find('td').eq(1).text() == "Tersedia"
+            }).show();
+        } else {
+            $('.searchable tr').show();
+        }
+    });
+
+    function setDataTable(data) {
+        data.forEach(element => {
+            $('#mytable').append(`<tr>
+                                <th scope="row">${element.waktu_id}</th>
+                                <td>cek</td>
+                                <td><span class="badge badge-primary">Tersedia</span></td>
+                                <td>
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" id="defaultUnchecked">
+                                        <label class="custom-control-label" for="defaultUnchecked"></label>
+                                    </div>
+                                </td>
+                            </tr>`)
+        });
+    }
+
+    function clearTable() {
+        $('#mytable').empty();
+    }
 </script>
 {% endblock js %}
 

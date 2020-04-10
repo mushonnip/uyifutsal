@@ -1,11 +1,12 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.views import generic
 from .models import Lapangan, Waktu, Jadwal
 from .forms import CreateUserForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.core import serializers
 
 
 def Login(request):
@@ -52,11 +53,6 @@ class IndexView(generic.ListView):
         return Lapangan.objects.all()
 
 
-# class DetailView(generic.DetailView):
-#     model = Lapangan
-#     template_name = 'lapangan/detail.html'
-
-
 def Detail(request, lapangan_id):
     lapangan = get_object_or_404(Lapangan, pk=lapangan_id)
     jadwal = Jadwal
@@ -65,3 +61,21 @@ def Detail(request, lapangan_id):
         'jadwal': jadwal,
     }
     return render(request, 'lapangan/detail.html', context)
+
+
+def GetJadwal(request):
+    atanggal = request.GET.get('tgl', None)    
+    jadwal = Jadwal.objects.all().values().filter(lapangan_id=1, tanggal=atanggal)
+    list_jadwal = list(jadwal)
+
+    data = {
+        'req': atanggal,
+        'jad': jadwal,
+    }
+    return JsonResponse(list_jadwal, safe=False)
+
+def GetWaktu(request):
+    waktu = Waktu.objects.all().order_by('-urutan')
+    list_waktu = list(waktu)
+    return JsonResponse(list_waktu)
+    

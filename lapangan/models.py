@@ -30,6 +30,7 @@ class Harga(models.Model):
 class Waktu(models.Model):
     harga = models.ForeignKey(Harga, on_delete=models.CASCADE)
     waktu = models.CharField(max_length=100)
+    urutan = models.IntegerField()
 
     def __str__(self):
         return self.waktu
@@ -54,4 +55,4 @@ class Jadwal(models.Model):
     status = models.CharField(max_length=50)
 
     def __str__(self):
-        return self.tanggal
+        return self.status
