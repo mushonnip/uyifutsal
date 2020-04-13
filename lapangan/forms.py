@@ -14,3 +14,4 @@ class CreateUserForm(UserCreationForm):
         self.fields['username'].widget.attrs['autocomplete'] = 'off'
         self.fields['email'].widget.attrs['type'] = 'text'
         self.fields['password1'].widget.attrs['autocomplete'] = 'off'
+

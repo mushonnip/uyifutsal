@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, JsonResponse
 from django.views import generic
-from .models import Lapangan, Waktu, Jadwal
+from .models import Lapangan, Waktu, Booking
 from .forms import CreateUserForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
@@ -20,7 +20,7 @@ def Login(request):
             login(request, user)
             return redirect('lapangan:index')
         else:
-            messages.info(request, 'username or password incorrect')
+            messages.error(request, 'Incorrect Username or Password')
             return render(request, 'lapangan/login.html')
 
     context = {}
@@ -55,7 +55,7 @@ class IndexView(generic.ListView):
 
 def Detail(request, lapangan_id):
     lapangan = get_object_or_404(Lapangan, pk=lapangan_id)
-    jadwal = Jadwal
+    jadwal = Booking
     context = {
         'lapangan': lapangan,
         'jadwal': jadwal,
@@ -65,7 +65,7 @@ def Detail(request, lapangan_id):
 
 def GetJadwal(request):
     atanggal = request.GET.get('tgl', None)    
-    jadwal = Jadwal.objects.all().values().filter(lapangan_id=1, tanggal=atanggal)
+    jadwal = Booking.objects.all().values().filter(lapangan_id=1, tanggal=atanggal)
     list_jadwal = list(jadwal)
 
     data = {

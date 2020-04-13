@@ -40,18 +40,3 @@ class Booking(models.Model):
     lapangan = models.ForeignKey(Lapangan, on_delete=models.CASCADE)
     waktu = models.ForeignKey(Waktu, on_delete=models.CASCADE)
     tanggal = models.DateTimeField(auto_now_add=True)
-
-
-# class Transaksi(models.Model):
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     tanggal = models.DateTimeField(auto_now=True, auto_now_add=True)
-
-
-class Jadwal(models.Model):
-    lapangan = models.ForeignKey(Lapangan, on_delete=models.CASCADE)
-    waktu = models.ForeignKey(Waktu, on_delete=models.CASCADE)
-    tanggal = models.DateField()
-    status = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.status

@@ -124,30 +124,7 @@ Home | UYI Futsal
                             </tr>
                         </thead>
                         <tbody class="searchable" id="mytable">
-                            <!-- <tr>
-                                <th scope="row">08.00 - 09.00</th>
-                                <td>cek</td>
-                                <td><span class="badge badge-primary">Tersedia</span></td>
-                                <td>
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="defaultUnchecked">
-                                        <label class="custom-control-label" for="defaultUnchecked"></label>
-                                    </div>
-                                </td>
-                            </tr> -->
-                            <!-- 
-                            <tr>
-                                <th scope="row">09.00 - 10.00</th>
-                                <td>cek</td>
-                                <td><span class="badge badge-danger">Tidak Tersedia</span></td>
-                                <td>
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input"
-                                            id="defaultUncheckedDisabled2" disabled>
-                                        <label class="custom-control-label" for="defaultUncheckedDisabled2"></label>
-                                    </div>
-                                </td>
-                            </tr> -->
+
                         </tbody>
                     </table>
 
@@ -158,7 +135,7 @@ Home | UYI Futsal
                             <div class="modal-content">
                                 <div class="modal-header text-center">
                                     <h4 class="modal-title w-100 font-weight-bold">Informasi Pembayaran</h4>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btnPembayaran">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
@@ -169,42 +146,32 @@ Home | UYI Futsal
                                                 <th scope="col">#</th>
                                                 <th scope="col">Waktu</th>
                                                 <th scope="col">Harga</th>
+                                                <th scope="col">Poin</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
                                                 <th scope="row">1</th>
-                                                <td>Mark</td>
-                                                <td>Otto</td>
+                                                <td>09.00 - 10.00</td>
+                                                <td>80.000</td>
+                                                <td>10</td>
                                             </tr>
                                             <tr>
                                                 <th scope="row">2</th>
-                                                <td>Jacob</td>
-                                                <td>Thornton</td>
+                                                <td>19.00 - 20.00</td>
+                                                <td>120.000</td>
+                                                <td>20</td>
                                             </tr>
                                             <tr>
-                                                <th scope="row">3</th>
-                                                <td>Larry</td>
-                                                <td>the Bird</td>
+                                                <th colspan="2" class="text-center">Total</th>
+                                                <td>200.000</td>
+                                                <td class="text-danger">30</td>
                                             </tr>
                                         </tbody>
-                                    </table>
-                                    <!-- <div class="md-form mb-5">
-                                        <strong>
-                                            <h4>Lapangan: </h5>
-                                        </strong>
-                                    </div>
-                                    <div class="md-form mb-5">
-                                        <strong>
-                                            <h4>Waktu: </h5>
-                                        </strong>
-                                    </div>
-                                    <div class="md-form mb-4">
-                                        <strong>
-                                            <h4>Total: </h5>
-                                        </strong>
-                                    </div> -->
+                                        
 
+                                    </table>
+                                    <h6>Poinmu sekarang: 40</h6>
                                 </div>
                                 <div class="modal-footer d-flex justify-content-center">
                                     <button class="btn btn-primary">Bayar</button>
@@ -239,66 +206,106 @@ Home | UYI Futsal
 
 {% block js %}
 <script>
-    var cek;
+    var jadwals;
+    var waktus;
     $(document).ready(() => {
 
         $('#prefill').pickadate({
-            min: true,
+            // min: true,
         });
+
         var dateValue = moment($('.datepicker').val()).format('YYYY-MM-DD');
         console.log(dateValue);
-        $.ajax({
-            type: 'get',
-            url: '/get-jadwal/',
-            dataType: 'JSON',
-            data: { tgl: dateValue },
-            success: data => {
-                cek = data;
-                console.log(data);
-                // setDataTable(data);
-            }
-        });
-
-        $.ajax({
-            type: 'get',
-            url: '/get-waktu/',
-            dataType: 'JSON',
-            success: waktuVal => {
-                console.log(waktuVal);
-                setDataTable(waktuVal);
-            }
-        });
-
-
+        getJadwal(dateValue);
+        getWaktu();
 
         $('.datepicker').on('change', function () {
             dateValue = moment($('.datepicker').val()).format('YYYY-MM-DD');
             console.clear();
             console.log(dateValue);
-            $.ajax({
-                type: 'get',
-                url: '/get-jadwal/',
-                dataType: 'JSON',
-                data: { tgl: dateValue },
-                success: data => {
-                    cek = data;
-                    console.log(data);
-                }
-            });
-            $.ajax({
-                type: 'get',
-                url: '/get-waktu/',
-                dataType: 'JSON',
-                success: waktuVal => {
-                    clearTable()
-                    console.log(waktuVal);
-                    setDataTable(waktuVal);
-                }
-            });
+            getJadwal(dateValue);
+            getWaktu();
 
         });
 
-    });
+        getTime();
+
+        // $("#but").click(function () {
+        //     if ($("input[type=checkbox]").is(
+        //         ":checked")) {
+        //         alert("Check box in Checked");
+        //     } else {
+        //         alert("Check box is Unchecked");
+        //     }
+        // });
+        $("#btnPembayaran").click(function () {
+            if ($("#c1").prop("checked") == true) {
+                console.log("Checkbox is checked.");
+            }
+            else if ($("#c1").prop("checked") == false) {
+                console.log("Checkbox is unchecked.");
+            }
+        });
+
+    }); //document ready
+
+    // function getWaktu(params) {
+
+    //     for (let index = 0; index < params.length; index++) {
+    //         var myValue{index} = $("#" + index).is(':checked');
+    //         console.log(myValue)
+    //         if (myValue == true) {
+    //             terpilih.push(index)
+    //             console.log(terpilih);
+    //         }
+    //     }
+    // }
+
+    function getJadwal(params) {
+        $.ajax({
+            type: 'get',
+            url: '/get-jadwal/',
+            dataType: 'JSON',
+            data: { tgl: params },
+            success: data => {
+                jadwals = data;
+                console.log(data);
+            }
+        });
+    }
+
+    function getTime(params) {
+        for (let index = 0; index < params.length; index++) {
+            const element = params[index];
+
+            // $("#c" + element.id).click(function () {
+            //     if ($("input[type=checkbox]").is(":checked")) {
+            //         console.log("checked");
+            //     } else {
+            //         console.log("not checked");
+            //     }
+            // });
+        }
+    }
+
+    function getWaktu() {
+        $.ajax({
+            type: 'get',
+            url: '/get-waktu/',
+            dataType: 'JSON',
+            success: waktuVal => {
+                clearTable()
+                getTime(waktuVal);
+                console.log(waktuVal);
+                setDataTable(waktuVal);
+            }
+        });
+    }
+
+
+
+
+
 
     $('#checkFilter').on('change', function () {
 
@@ -320,34 +327,35 @@ Home | UYI Futsal
         }
         return harga
     }
+
     function setDataTable(data) {
-        if (cek.length == 0) {
+        if (jadwals.length == 0) {
             data.forEach(element => {
                 $('#mytable').append(`<tr>
                                 <th scope="row">${element.waktu}</th>
                                 <td>${getHarga(element.harga_id)}</td>
                                 <td><span class="badge badge-primary">Tersedia</span></td>
                                 <td>
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="${element.id}">
-                                        <label class="custom-control-label" for="${element.id}"></label>
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" id="c${element.id}">
+                                        <label class="form-check-label" for="c${element.id}"></label>
                                     </div>
                                 </td>
                             </tr>`)
             }
             )
         } else {
-            for (let index = 0; index < cek.length; index++) {
+            for (let index = 0; index < jadwals.length; index++) {
                 data.forEach(element => {
-                    if (element.id == cek[index].waktu_id) {
+                    if (element.id == jadwals[index].waktu_id) {
                         $('#mytable').append(`<tr>
                                 <th scope="row">${element.waktu}</th>
                                 <td>${getHarga(element.harga_id)}</td>
                                 <td><span class="badge badge-danger">Tidak Tersedia</span></td>
                                 <td>
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="${element.id}">
-                                        <label class="custom-control-label" for="${element.id}"></label>
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" id="c${element.id}" disabled>
+                                        <label class="form-check-label" for="c${element.id}"></label>
                                     </div>
                                 </td>
                             </tr>`)
@@ -357,9 +365,9 @@ Home | UYI Futsal
                                 <td>${getHarga(element.harga_id)}</td>
                                 <td><span class="badge badge-primary">Tersedia</span></td>
                                 <td>
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" id="${element.id}">
-                                        <label class="custom-control-label" for="${element.id}"></label>
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" id="c${element.id}">
+                                        <label class="form-check-label" for="c${element.id}"></label>
                                     </div>
                                 </td>
                             </tr>`)
@@ -367,12 +375,12 @@ Home | UYI Futsal
                 });
             }
         }
-
     }
 
     function clearTable() {
         $('#mytable').empty();
     }
+
 </script>
 {% endblock js %}
 

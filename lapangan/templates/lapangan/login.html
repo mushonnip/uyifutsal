@@ -148,13 +148,13 @@
                                     </div>
 
                                     <!--Body-->
-
-
                                     {% for message in messages %}
-                                    <div class="alert alert-success" role="alert">
+                                    <div {% if message.tags %} class="alert alert-danger text-center" {% endif %}>
                                         {{ message }}
                                     </div>
                                     {% endfor %}
+
+
 
 
                                     <div class="md-form">

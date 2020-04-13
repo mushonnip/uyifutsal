@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Lapangan, Rumput, Waktu, Harga, Jadwal, Booking
+from .models import Lapangan, Rumput, Waktu, Harga, Booking
 
 
 class LapanganAdmin(admin.ModelAdmin):
@@ -10,17 +10,12 @@ class LapanganAdmin(admin.ModelAdmin):
 class HargaAdmin(admin.ModelAdmin):
     list_display = ('nama', 'harga')
 
-
-class JadwalAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'lapangan', 'tanggal', 'waktu')
-
 class WaktuAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'waktu')
+    list_display = ('pk', 'waktu', 'harga')
 
 
 admin.site.register(Lapangan, LapanganAdmin)
 admin.site.register(Rumput)
 admin.site.register(Waktu, WaktuAdmin)
 admin.site.register(Harga, HargaAdmin)
-admin.site.register(Jadwal, JadwalAdmin)
 admin.site.register(Booking)
