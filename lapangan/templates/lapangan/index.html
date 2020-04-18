@@ -137,7 +137,14 @@ Home - UYI Futsal
                             {% if user.is_authenticated %}
                             <h5 class="text-uppercase mb-5 white-text wow fadeInDown" data-wow-delay="0.4s">
                                 <strong>{{ user.username }}</strong></h5>
-                            <a class="btn btn-outline-white wow fadeInDown" data-wow-delay="0.4s">DASHBOARD</a>
+                                
+                                {% if user.is_superuser %}
+                                <a href="admin/" class="btn btn-outline-white wow fadeInDown" data-wow-delay="0.4s">DASHBOARD</a>        
+                                {% else %}
+                                <a href="#" class="btn btn-outline-white wow fadeInDown" data-wow-delay="0.4s">DASHBOARD</a>        
+                                {% endif %}
+                                    
+                            
                             <a href="logout/" class="btn btn-outline-white wow fadeInDown"
                                 data-wow-delay="0.4s">LOGOUT</a>
                             {% else %}

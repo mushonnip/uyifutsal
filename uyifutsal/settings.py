@@ -20,9 +20,7 @@ ALLOWED_HOSTS = ['mushonnip.engineer',
 # Application definition
 
 INSTALLED_APPS = [
-    # General use templates & template tags (should appear first)
     'adminlte3',
-    # Optional: Django admin theme (must be before django.contrib.admin)
     'adminlte3_theme',
     'uyifutsal',
     'django.contrib.admin',
@@ -37,7 +35,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    # 'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -121,15 +118,6 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
-
-# STATIC_URL = '/static/'
-# MEDIA_URL = '/media/'
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, "static")
-
-# ]
 
 DEFAULT_FILE_STORAGE = 'backend.custom_azure.AzureMediaStorage'
 STATICFILES_STORAGE = 'backend.custom_azure.AzureStaticStorage'

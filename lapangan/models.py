@@ -1,4 +1,5 @@
-import uuid
+import uuid, datetime
+from django.utils.timezone import now
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -37,12 +38,13 @@ class Waktu(models.Model):
 
 
 class Booking(models.Model):
+    kode_booking = models.CharField(primary_key=True, default=uuid.uuid4().hex[:5].upper(), max_length=50, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     lapangan = models.ForeignKey(Lapangan, on_delete=models.CASCADE)
-    waktu = models.ForeignKey(Waktu, on_delete=models.CASCADE)
+    # waktu = models.ForeignKey(Waktu, on_delete=models.CASCADE)
+    waktu = models.ManyToManyField(Waktu)
     tanggal = models.DateField()
     timestamp = models.DateTimeField(auto_now_add=True)
-    kode_booking = models.UUIDField(primary_key=False, default=uuid.uuid4, editable=False)
 
     def __str__(self):
         return str(self.kode_booking)
