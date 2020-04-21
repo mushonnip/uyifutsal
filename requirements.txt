@@ -13,6 +13,7 @@ certifi==2019.11.28
 cffi==1.14.0
 chardet==3.0.4
 cryptography==2.9
+dj-database-url==0.5.0
 Django==3.0.5
 django-adminlte3==0.1.2
 django-storages==1.9.1
@@ -27,6 +28,7 @@ pycodestyle==2.5.0
 pycparser==2.20
 pylint==2.4.4
 python-dateutil==2.8.1
+python-decouple==3.3
 pytz==2019.3
 requests==2.23.0
 six==1.14.0

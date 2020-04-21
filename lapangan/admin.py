@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Lapangan, Rumput, Waktu, Harga, Booking
+from .models import Lapangan, Rumput, Waktu, Harga, Booking, Profile
 
 
 class LapanganAdmin(admin.ModelAdmin):
@@ -25,3 +25,4 @@ admin.site.register(Rumput)
 admin.site.register(Waktu, WaktuAdmin)
 admin.site.register(Harga, HargaAdmin)
 admin.site.register(Booking, BookingAdmin)
+admin.site.register(Profile)

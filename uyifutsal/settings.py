@@ -1,23 +1,13 @@
 import os
+from decouple import config
+import dj_database_url
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+DEBUG = config('DEBUG')
+SECRET_KEY = config('SECRET_KEY')
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'a$=r7k6earvao63%k#twoxlk048@kgae1of3h1%hm)4zqvcsr&'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
 ALLOWED_HOSTS = ['mushonnip.engineer',
                  'uyifutsal.azurewebsites.net', '127.0.0.1']
-
-
-# Application definition
 
 INSTALLED_APPS = [
     'adminlte3',
@@ -64,29 +54,11 @@ TEMPLATES = [
 WSGI_APPLICATION = 'uyifutsal.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'default': dj_database_url.config(default=config('DATABASE_URL'))
     }
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #     'NAME': 'd53l4seuvmai0f',
-    #     'USER': 'cquanyavhueuak',
-    #     'PASSWORD': 'ce37ff9c98322c3947ba7e56596ccbf78e3daf24d9985dfee12de87c3bff765a',
-    #     'HOST': 'ec2-34-193-232-231.compute-1.amazonaws.com',
-    #     'PORT': '5432',
-    # }
-}
 
-
-# Password validation
-# https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
-
-AUTH_PASSWORD_VALIDATORS = [
+AUTH_PASSWORD_VALIDATORS=[
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
@@ -102,34 +74,23 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# Internationalization
-# https://docs.djangoproject.com/en/3.0/topics/i18n/
+LANGUAGE_CODE='en-us'
+TIME_ZONE='UTC'
+USE_I18N=True
+USE_L10N=True
+USE_TZ=True
 
-LANGUAGE_CODE = 'en-us'
+DEFAULT_FILE_STORAGE='backend.custom_azure.AzureMediaStorage'
+STATICFILES_STORAGE='backend.custom_azure.AzureStaticStorage'
 
-TIME_ZONE = 'UTC'
+STATIC_LOCATION="static"
+MEDIA_LOCATION="media"
 
-USE_I18N = True
-
-USE_L10N = True
-
-USE_TZ = True
-
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.0/howto/static-files/
-
-DEFAULT_FILE_STORAGE = 'backend.custom_azure.AzureMediaStorage'
-STATICFILES_STORAGE = 'backend.custom_azure.AzureStaticStorage'
-
-STATIC_LOCATION = "static"
-MEDIA_LOCATION = "media"
-
-AZURE_ACCOUNT_NAME = "uyiblob"
-AZURE_CUSTOM_DOMAIN = f'{AZURE_ACCOUNT_NAME}.blob.core.windows.net'
-STATIC_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
-MEDIA_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{MEDIA_LOCATION}/'
-STATICFILES_DIRS = [
+AZURE_ACCOUNT_NAME="uyiblob"
+AZURE_CUSTOM_DOMAIN=f'{AZURE_ACCOUNT_NAME}.blob.core.windows.net'
+STATIC_URL=f'https://{AZURE_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
+MEDIA_URL=f'https://{AZURE_CUSTOM_DOMAIN}/{MEDIA_LOCATION}/'
+STATICFILES_DIRS=[
     os.path.join(BASE_DIR, "static")
 
 ]
