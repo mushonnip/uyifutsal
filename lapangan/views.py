@@ -7,7 +7,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.core import serializers
-
+import json
+from django.contrib.auth.models import User
 
 def Login(request):
     if request.method == 'POST':
@@ -64,14 +65,11 @@ def Detail(request, lapangan_id):
 
 
 def GetJadwal(request):
-    atanggal = request.GET.get('tgl', None)    
-    jadwal = Booking.objects.all().values().filter(lapangan_id=1, tanggal=atanggal)
+    input_tanggal = request.GET.get('input_tanggal', None)    
+    input_lapangan_id = request.GET.get('input_lapangan_id', None)
+    jadwal = Booking.objects.all().values().filter(lapangan_id=input_lapangan_id, tanggal=input_tanggal)
     list_jadwal = list(jadwal)
 
-    data = {
-        'req': atanggal,
-        'jad': jadwal,
-    }
     return JsonResponse(list_jadwal, safe=False)
 
 def GetWaktu(request):
@@ -81,4 +79,3 @@ def GetWaktu(request):
         'waktu': waktu
     }
     return JsonResponse(list_waktu, safe=False)
-    

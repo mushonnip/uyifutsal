@@ -7,15 +7,16 @@ from django.dispatch import receiver
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    point = models.IntegerField(default=0)
+    birthdate = models.DateField(null=True, blank=True)
+    point = models.IntegerField(null=True, blank=True)
+    
+    def __str__(self):
+        return self.user.username
 
 @receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
+def create_or_update_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
-
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
 
 class Rumput(models.Model):
