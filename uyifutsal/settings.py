@@ -6,8 +6,7 @@ DEBUG = config('DEBUG')
 SECRET_KEY = config('SECRET_KEY')
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-ALLOWED_HOSTS = ['mushonnip.engineer',
-                 'uyifutsal.azurewebsites.net', '127.0.0.1']
+ALLOWED_HOSTS = ['mushonnip.engineer', '127.0.0.1']
 
 INSTALLED_APPS = [
     'adminlte3',
@@ -80,16 +79,9 @@ USE_I18N=True
 USE_L10N=True
 USE_TZ=True
 
-DEFAULT_FILE_STORAGE='backend.custom_azure.AzureMediaStorage'
-STATICFILES_STORAGE='backend.custom_azure.AzureStaticStorage'
-
 STATIC_LOCATION="static"
 MEDIA_LOCATION="media"
 
-AZURE_ACCOUNT_NAME="uyiblob"
-AZURE_CUSTOM_DOMAIN=f'{AZURE_ACCOUNT_NAME}.blob.core.windows.net'
-STATIC_URL=f'https://{AZURE_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
-MEDIA_URL=f'https://{AZURE_CUSTOM_DOMAIN}/{MEDIA_LOCATION}/'
 STATICFILES_DIRS=[
     os.path.join(BASE_DIR, "static")
 

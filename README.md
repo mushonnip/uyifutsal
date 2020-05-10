@@ -22,13 +22,10 @@ $ python manage.py runserver
 - [x] Tampilan admin
 - [x] CRUD Lapangan
 - [x] CRUD User
-- [ ] CRUD Jadwal
+- [x] CRUD Jadwal
 - [ ] Dashboard User
 
 ## Demo
-This app already deployed in Heroku<br>
-Base URL: https://uyifutsal.azurewebsites.net/ <br>
-Wanna try the admin panel? just add ```admin/``` next to Base URL<br>
 Admin Username: admin<br>
 Admin Password: admin12345<br>
 
