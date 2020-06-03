@@ -1,12 +1,10 @@
-{% extends 'lapangan/base.html' %}
+{% extends 'base_layout.html' %}
 {% load static %}
 
 
-{% block title %}
-Home | UYI Futsal
-{% endblock title %}
 
-{% block css %}
+{% block head %}
+<title>Detail</title>
 <style>
     .navbar {
         background-color: #6f7782;
@@ -16,14 +14,12 @@ Home | UYI Futsal
         background-color: #6f7782;
     }
 </style>
-{% endblock css %}
+{% endblock head %}
 
 {% block body %}
 
-
 <!--Main Navigation-->
 <header>
-
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
             <a class="navbar-brand" href="/"><strong>UYI Futsal</strong></a>
@@ -60,16 +56,14 @@ Home | UYI Futsal
 
         <!--Section: Blog v.4-->
         <section class="section mt-5 pb-3 wow fadeIn">
-
             <!--Grid row-->
             <div class="row">
                 <div class="col-md-12">
                     <!-- Card -->
                     <div class="card card-cascade wider reverse">
-
                         <!-- Card image -->
                         <div class="view view-cascade overlay">
-                            <img class="card-img-top" src="{{ lapangan.gambar.url }}" alt="Card image cap">
+                            <img class="card-img-top" src="{{ field.image.url }}" alt="{{ field.name }}">
                             <a href="#!">
                                 <div class="mask rgba-white-slight"></div>
                             </a>
@@ -77,7 +71,7 @@ Home | UYI Futsal
 
                         <!--Post data-->
                         <div class="card-body card-body-cascade text-center">
-                            <h2><a><strong>{{ lapangan.nama }}</strong></a></h2>
+                            <h2><a><strong>{{ field.name }}</strong></a></h2>
                             <br>
                             <div class="container">
                                 <div class="row">
@@ -92,7 +86,7 @@ Home | UYI Futsal
                                         </h6>
                                     </div>
                                     <div class="col-md-3 green-text pb-1">
-                                        <h6><i class="fas fa-flag"></i><strong> Rumput Sintesis
+                                        <h6><i class="fas fa-flag"></i><strong> {{ field.floor_type }}
                                             </strong>
                                         </h6>
                                     </div>
@@ -123,7 +117,7 @@ Home | UYI Futsal
                                 <th scope="col">Booking</th>
                             </tr>
                         </thead>
-                        <tbody class="searchable" id="mytable">
+                        <tbody class="searchable" id="scheduleTable">
 
                         </tbody>
                     </table>
@@ -145,8 +139,8 @@ Home | UYI Futsal
                                         <thead>
                                             <tr>
                                                 <th scope="col">#</th>
-                                                <th scope="col">Waktu</th>
-                                                <th scope="col">Harga</th>
+                                                <th scope="col">time</th>
+                                                <th scope="col">price</th>
                                                 <th scope="col">Poin</th>
                                             </tr>
                                         </thead>
@@ -166,7 +160,7 @@ Home | UYI Futsal
                         <a href="" class="btn btn-primary btn-rounded mb-4 btnPembayaran" data-toggle="modal"
                             data-target="#modalPembayaran" id="btnPembayaran">Pembayaran</a>
                     </div>
-                    
+
                     <!-- bayar -->
                 </div>
             </div>
@@ -174,17 +168,20 @@ Home | UYI Futsal
         </section>
         <!--Section: Blog v.4-->
         <hr class="mb-5 mt-4">
-
+        
 </main>
 <!--Main Layout-->
 {% endblock body %}
 
 {% block js %}
+<script src="{% static 'js/moment-with-locales.js' %}"></script>
 <script>
-    var jadwals;
-    var waktus;
-    var id_lapangan = {{ lapangan.id }}
-    var keranjang = [];
+
+    $(document).ajaxSend(function() {
+		$("#overlay").fadeIn(300);　
+	});
+    var scheduleLength;
+    var schedule;
     $(document).ready(() => {
 
         $('#prefill').pickadate({
@@ -192,83 +189,52 @@ Home | UYI Futsal
         });
 
         var dateValue = moment($('.datepicker').val()).format('YYYY-MM-DD');
-        getJadwal(dateValue, id_lapangan);
-        getWaktu();
 
         $('.datepicker').on('change', function () {
             dateValue = moment($('.datepicker').val()).format('YYYY-MM-DD');
-            console.clear();
-            console.table(dateValue);
-            getJadwal(dateValue, id_lapangan);
-            getWaktu();
-
+            clearTable()
+            getSch(dateValue, `{{ field.id }}`);
         });
+
+        getSch(dateValue, `{{ field.id }}`);
+        
+        
 
     }); //document ready
 
-    // $('input:checkbox').change(function (e) {
-    //     if ($(this).is(":checked")) {
-    //         alert('checked');
-    //     } else {
-    //         alert('not-checked');
-    //     }
-    // });
 
-
-    $("#modalPembayaran").on('show.bs.modal', function () {
-
-        console.clear();
-        keranjang = []
-        $('#tblPembayaran').empty()
-        $.each($("input[name='waktu']:checked"), function () {
-            // console.table($(this).val());
-            keranjang.push(JSON.parse($(this).val()));
-            
-        });
-        var i = 1;
-        keranjang.forEach(element => {
-            $('#tblPembayaran').append(
-                `
-            <tr>
-                <th scope="row">${i}</th>
-                <td id="simple">${element.waktu}</td>
-                <td>Rp. ${element.harga}</td>
-                <td>${parseInt(element.harga)*(50/100)}</td>
-            </tr>
-            ${i += 1}
-            `
-            );
-        });
-        // console.table(JSON.parse($(this).val()));
-        console.table(keranjang);
-    });
-
-
-    function getJadwal(tanggal, lapangan) {
+    function getSch(date, field_id) {
         $.ajax({
-            type: 'get',
-            url: '/get-jadwal/',
-            dataType: 'JSON',
+            type: "get",
+            url: "/get-sch/",
+            dataType: "JSON",
             data: {
-                input_tanggal: tanggal,
-                input_lapangan_id: lapangan
+                _date : date,
+                _field_id : field_id,
             },
-            success: data => {
-                jadwals = data;
-                console.table(data);
+            success: response => {
+                console.table(response);
+                setDataTable(response);
             }
         });
     }
 
-    function getWaktu() {
-        $.ajax({
-            type: 'get',
-            url: '/get-waktu/',
-            dataType: 'JSON',
-            success: waktuVal => {
-                clearTable()
-                console.table(waktuVal);
-                setDataTable(waktuVal);
+    function setDataTable(params) {
+        params.forEach(element => {
+            if (element.id != null) {
+                $('#scheduleTable').append(
+                `<tr>
+                    <th scope="row">${element.time}</th>
+                        <td>Rp. ${element.price}</td>
+                        ${element.status ? '<td><span class="badge badge-danger">Tidak Tersedia</span></td>' : '<td><span class="badge badge-primary">Tersedia</span></td>'}
+                        <td>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="c${element.id}" value='{"id": "${element.price}","time":"${element.time}","price":"cek"}' name="time" ${element.status ? 'disabled' : ''}>
+                                <label class="form-check-label" for="c${element.id}"></label>
+                            </div>
+                        </td>
+                </tr>`
+            );    
             }
         });
     }
@@ -284,67 +250,11 @@ Home | UYI Futsal
         }
     });
 
-    function getHarga(id) {
-        if (id == 1) {
-            harga = '80.000'
-        } else {
-            harga = '120.000'
-        }
-        return harga
-    }
-
-    function setDataTable(data) {
-        if (jadwals.length == 0) {
-            data.forEach(element => {
-                $('#mytable').append(`<tr>
-                                <th scope="row">${element.waktu}</th>
-                                <td>Rp. ${getHarga(element.harga_id)}</td>
-                                <td><span class="badge badge-primary">Tersedia</span></td>
-                                <td>
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" id="c${element.id}" value='{"id": "${element.harga_id}","waktu":"${element.waktu}","harga":"${getHarga(element.harga_id)}"}' name="waktu">
-                                        <label class="form-check-label" for="c${element.id}"></label>
-                                    </div>
-                                </td>
-                            </tr>`)
-            }
-            )
-        } else {
-            for (let index = 0; index < jadwals.length; index++) {
-                data.forEach(element => {
-                    if (element.id == jadwals[index].waktu_id) {
-                        $('#mytable').append(`<tr>
-                                <th scope="row">${element.waktu}</th>
-                                <td>Rp. ${getHarga(element.harga_id)}</td>
-                                <td><span class="badge badge-danger">Tidak Tersedia</span></td>
-                                <td>
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" id="c${element.id}" value='{"id": "${element.harga_id}","waktu":"${element.waktu}","harga":"${getHarga(element.harga_id)}"}' name="waktu" disabled>
-                                        <label class="form-check-label" for="c${element.id}"></label>
-                                    </div>
-                                </td>
-                            </tr>`)
-                    } else {
-                        $('#mytable').append(`<tr>
-                                <th scope="row">${element.waktu}</th>
-                                <td>Rp. ${getHarga(element.harga_id)}</td>
-                                <td><span class="badge badge-primary">Tersedia</span></td>
-                                <td>
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" id="c${element.id}" value='{"id": "${element.harga_id}","waktu":"${element.waktu}","harga":"${getHarga(element.harga_id)}"}' name="waktu">
-                                        <label class="form-check-label" for="c${element.id}"></label>
-                                    </div>
-                                </td>
-                            </tr>`)
-                    }
-                });
-            }
-        }
-    }
-
     function clearTable() {
-        $('#mytable').empty();
+        $('#scheduleTable').empty();
     }
 
+    
 </script>
+
 {% endblock js %}

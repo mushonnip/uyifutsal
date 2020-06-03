@@ -118,3 +118,7 @@ GitHub.sublime-settings
 .history
 .deployment
 .vscode/settings.json
+
+# Staticfiles
+static_cdn/
+static/

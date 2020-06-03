@@ -2,24 +2,22 @@ import os
 from decouple import config
 import dj_database_url
 
-DEBUG = config('DEBUG')
-SECRET_KEY = config('SECRET_KEY')
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+REPOSITORY_ROOT = os.path.dirname(BASE_DIR)
 
-ALLOWED_HOSTS = ['mushonnip.engineer', '127.0.0.1']
+SECRET_KEY = config('SECRET_KEY')
+DEBUG = config('DEBUG')
+ALLOWED_HOSTS = ['127.0.0.1']
 
 INSTALLED_APPS = [
-    'adminlte3',
-    'adminlte3_theme',
     'uyifutsal',
+    'bookings',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'lapangan',
-    'storages'
 ]
 
 MIDDLEWARE = [
@@ -37,7 +35,7 @@ ROOT_URLCONF = 'uyifutsal.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -52,12 +50,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'uyifutsal.wsgi.application'
 
-
 DATABASES = {
-        'default': dj_database_url.config(default=config('DATABASE_URL'))
-    }
+    'default': dj_database_url.config(default=config('DATABASE_URL'))
+}
 
-AUTH_PASSWORD_VALIDATORS=[
+AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
@@ -72,17 +69,17 @@ AUTH_PASSWORD_VALIDATORS=[
     },
 ]
 
+LANGUAGE_CODE = 'en-us'
+TIME_ZONE = 'UTC'
+USE_I18N = True
+USE_L10N = True
+USE_TZ = True
 
-LANGUAGE_CODE='en-us'
-TIME_ZONE='UTC'
-USE_I18N=True
-USE_L10N=True
-USE_TZ=True
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "static_cdn", "static_root")
 
-STATIC_LOCATION="static"
-MEDIA_LOCATION="media"
-
-STATICFILES_DIRS=[
-    os.path.join(BASE_DIR, "static")
-
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "static_cdn", "media_root")
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
 ]

@@ -1,16 +1,13 @@
-{% extends 'lapangan/base.html' %}
+{% extends 'base_layout.html' %}
 {% load static %}
 
-
-{% block title %}
-Home - UYI Futsal
-{% endblock title %}
-
-{% block css %}
+{% block head %}
+<title>Home</title>
 <style>
     html,
     body,
     header,
+
     .jarallax {
         height: 700px;
     }
@@ -84,12 +81,13 @@ Home - UYI Futsal
             margin-right: 0;
         }
     }
+
+    
 </style>
-{% endblock css %}
+{% endblock head %}
+
 
 {% block body %}
-
-
 <!--Main Navigation-->
 <header>
 
@@ -103,9 +101,6 @@ Home - UYI Futsal
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent-7">
                 <ul class="navbar-nav mr-auto">
-                    <!-- <li class="nav-item active">
-                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                    </li> -->
                     <li class="nav-item">
                         <a class="nav-link" href="#">About</a>
                     </li>
@@ -116,13 +111,18 @@ Home - UYI Futsal
                         <a class="nav-link" href="#">Promo</a>
                     </li>
                 </ul>
+                <ul class="nav navbar-nav nav-flex-icons ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Sign In</a>
+                    </li>
+                </ul>
 
             </div>
         </div>
     </nav>
 
     <!-- Intro Section -->
-    <div class="view jarallax" data-jarallax='{"speed": 0.2}' style="background-image: url({% static 'mdb/img/preview.jpeg' %}); 
+    <div class="view jarallax" data-jarallax='{"speed": 0.2}' style="background-image: url({% static 'image/preview.jpeg' %}); 
         background-repeat: no-repeat; background-size: cover; background-position: center center;">
         <div class="mask rgba-black-light">
             <div class="container h-100 d-flex justify-content-center align-items-center">
@@ -137,20 +137,21 @@ Home - UYI Futsal
                             {% if user.is_authenticated %}
                             <h5 class="text-uppercase mb-5 white-text wow fadeInDown" data-wow-delay="0.4s">
                                 <strong>{{ user.username }}</strong></h5>
-                                
-                                {% if user.is_superuser %}
-                                <a href="admin/" class="btn btn-outline-white wow fadeInDown" data-wow-delay="0.4s">DASHBOARD</a>        
-                                {% else %}
-                                <a href="#" class="btn btn-outline-white wow fadeInDown" data-wow-delay="0.4s">DASHBOARD</a>        
-                                {% endif %}
-                                    
-                            
+
+                            {% if user.is_superuser %}
+                            <a href="admin/" class="btn btn-outline-white wow fadeInDown"
+                                data-wow-delay="0.4s">DASHBOARD</a>
+                            {% else %}
+                            <a href="#" class="btn btn-outline-white wow fadeInDown" data-wow-delay="0.4s">DASHBOARD</a>
+                            {% endif %}
+
+
                             <a href="logout/" class="btn btn-outline-white wow fadeInDown"
                                 data-wow-delay="0.4s">LOGOUT</a>
                             {% else %}
-                            <a href="{% url 'lapangan:login' %}" class="btn btn-outline-white wow fadeInDown"
+                            <a href="#" class="btn btn-outline-white wow fadeInDown"
                                 data-wow-delay="0.4s">LOGIN</a>
-                            <a href="{% url 'lapangan:register' %}" class="btn btn-outline-white wow fadeInDown"
+                            <a href="#" class="btn btn-outline-white wow fadeInDown"
                                 data-wow-delay="0.4s">REGISTER</a>
 
                             {% endif %}
@@ -180,9 +181,7 @@ Home - UYI Futsal
                 bermain, tidak
                 merusak fasilitas dan buanglah sampah pada tempatnya!</p>
 
-
-            {% for lapangan in latest_lapangan_list %}
-
+            {% for field in field_list %}
 
             <!--Grid row-->
             <div class="row">
@@ -190,7 +189,7 @@ Home - UYI Futsal
                 <div class="col-lg-4 mb-4">
                     <!--Featured image-->
                     <div class="view overlay z-depth-1">
-                        <img src="{{ lapangan.gambar.url }}" class="img-fluid" alt="First sample image">
+                        <img src="{{ field.image.url }}" class="img-fluid" alt="{{ field.name }}">
                         <a>
                             <div class="mask rgba-white-slight"></div>
                         </a>
@@ -200,21 +199,18 @@ Home - UYI Futsal
 
                 <!--Grid column-->
                 <div class="col-lg-7 mb-4">
-                    <h4 class="mb-4"><strong>{{ lapangan.nama }}</strong></h4>
+                    <h4 class="mb-4"><strong>{{ field.name }}</strong></h4>
                     <h6 class="orange-text pb-1"><i class="fas fa-sun"></i> 08.00 - 18.00<strong> Rp 80.000 </strong>
                     </h6>
                     <h6 class="brown-text pb-1"><i class="fas fa-moon"></i> 18.00 - 00.00<strong> Rp 120.000 </strong>
                     </h6>
-                    <h6 class="green-text pb-1"><i class="fas fa-flag"></i><strong> Rumput {{ lapangan.jenis_rumput }}
-                        </strong></h6>
-
-                    <!-- <p>{{ lapangan.deskripsi }}</p> -->
-                    <a href="{% url 'lapangan:detail' lapangan.id %}" class="btn btn-primary">DETAIL</a>
+                    <h6 class="green-text pb-1"><i class="fas fa-flag"></i><strong> {{ field.floor_type }}</strong></h6>
+                    <a href="{% url 'bookings:detail' field.id %}" class="btn btn-primary">DETAIL</a>
                 </div>
                 <!--Grid column-->
             </div>
             <!--Grid row-->
-
+            
             <hr class="mb-5">
             {% endfor %}
 
@@ -428,7 +424,6 @@ Home - UYI Futsal
 
 </footer>
 <!--/.Footer-->
-
 {% endblock body %}
 
 {% block js %}
