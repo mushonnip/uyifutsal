@@ -121,6 +121,14 @@
 
                         </tbody>
                     </table>
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{ form }}
+                        <!-- <input id="field_id" type="text" name="field_id" maxlength="100">
+                        <input id="time" type="text" name="date maxlength="100">
+                        <input id="date type="text" name="date" maxlength="100"> -->
+                        <input type="submit" value="Submit">
+                    </form>
 
                     <!-- bayar -->
                     <div class="modal fade" id="modalPembayaran" tabindex="-1" role="dialog"
@@ -139,8 +147,8 @@
                                         <thead>
                                             <tr>
                                                 <th scope="col">#</th>
-                                                <th scope="col">time</th>
-                                                <th scope="col">price</th>
+                                                <th scope="col">Waktu</th>
+                                                <th scope="col">Harga</th>
                                                 <th scope="col">Poin</th>
                                             </tr>
                                         </thead>
@@ -149,6 +157,7 @@
                                     </table>
                                     <h6>Poinmu sekarang: {{ user.profile.point }}</h6>
                                 </div>
+                                
                                 <div class="modal-footer d-flex justify-content-center">
                                     <button class="btn btn-primary">Bayar</button>
                                 </div>
@@ -168,7 +177,7 @@
         </section>
         <!--Section: Blog v.4-->
         <hr class="mb-5 mt-4">
-        
+
 </main>
 <!--Main Layout-->
 {% endblock body %}
@@ -176,12 +185,9 @@
 {% block js %}
 <script src="{% static 'js/moment-with-locales.js' %}"></script>
 <script>
-
-    $(document).ajaxSend(function() {
-		$("#overlay").fadeIn(300);　
-	});
     var scheduleLength;
     var schedule;
+    var keranjang = [];
     $(document).ready(() => {
 
         $('#prefill').pickadate({
@@ -197,8 +203,8 @@
         });
 
         getSch(dateValue, `{{ field.id }}`);
-        
-        
+
+
 
     }); //document ready
 
@@ -209,8 +215,8 @@
             url: "/get-sch/",
             dataType: "JSON",
             data: {
-                _date : date,
-                _field_id : field_id,
+                _date: date,
+                _field_id: field_id,
             },
             success: response => {
                 console.table(response);
@@ -223,18 +229,18 @@
         params.forEach(element => {
             if (element.id != null) {
                 $('#scheduleTable').append(
-                `<tr>
+                    `<tr>
                     <th scope="row">${element.time}</th>
                         <td>Rp. ${element.price}</td>
                         ${element.status ? '<td><span class="badge badge-danger">Tidak Tersedia</span></td>' : '<td><span class="badge badge-primary">Tersedia</span></td>'}
                         <td>
                             <div class="form-check">
-                                <input type="checkbox" class="form-check-input" id="c${element.id}" value='{"id": "${element.price}","time":"${element.time}","price":"cek"}' name="time" ${element.status ? 'disabled' : ''}>
+                                <input type="checkbox" class="form-check-input" id="c${element.id}" value='{"id": "${element.id}","time":"${element.time}","price":"${element.price}", "point_required":"${element.point_required}"}' name="time" ${element.status ? 'disabled' : ''}>
                                 <label class="form-check-label" for="c${element.id}"></label>
                             </div>
                         </td>
                 </tr>`
-            );    
+                );
             }
         });
     }
@@ -254,7 +260,34 @@
         $('#scheduleTable').empty();
     }
 
-    
+    $("#modalPembayaran").on('show.bs.modal', function () {
+        console.clear();
+        keranjang = []
+        $('#tblPembayaran').empty()
+        $.each($("input[name='time']:checked"), function () {
+            // console.table($(this).val());
+            keranjang.push(JSON.parse($(this).val()));
+
+        });
+        var i = 1;
+        keranjang.forEach(element => {
+            $('#tblPembayaran').append(
+                `
+    <tr>
+        <th scope="row">${i}</th>
+        <td id="simple">${element.time}</td>
+        <td>Rp. ${element.price}</td>
+        <td>${element.point_required}</td>
+    </tr>
+    ${i += 1}
+    `
+            );
+        });
+        // console.table(JSON.parse($(this).val()));
+        console.table(keranjang);
+    });
+
+
 </script>
 
 {% endblock js %}

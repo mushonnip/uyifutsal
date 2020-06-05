@@ -7,13 +7,13 @@ class FieldAdmin(admin.ModelAdmin):
     list_display = ('name', 'floor_type')
 
 class PriceAdmin(admin.ModelAdmin):
-    list_display = ('price_name', 'price')
+    list_display = ('price_name', 'price', 'point_required')
 
 class TimeAdmin(admin.ModelAdmin):
     list_display = ('pk', 'time', 'price')
 
 class BookingAdmin(admin.ModelAdmin):
-    list_display = ('booking_code', 'time', 'user', 'date')
+    list_display = ('booking_code', 'user', 'date', 'get_time')
 
 class ProfileInline(admin.StackedInline):
     model = Profile

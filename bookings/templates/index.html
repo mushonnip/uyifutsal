@@ -111,11 +111,11 @@
                         <a class="nav-link" href="#">Promo</a>
                     </li>
                 </ul>
-                <ul class="nav navbar-nav nav-flex-icons ml-auto">
+                <!-- <ul class="nav navbar-nav nav-flex-icons ml-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="#">Sign In</a>
                     </li>
-                </ul>
+                </ul> -->
 
             </div>
         </div>
@@ -146,10 +146,10 @@
                             {% endif %}
 
 
-                            <a href="logout/" class="btn btn-outline-white wow fadeInDown"
+                            <a href="{% url 'bookings:logout' %}" class="btn btn-outline-white wow fadeInDown"
                                 data-wow-delay="0.4s">LOGOUT</a>
                             {% else %}
-                            <a href="#" class="btn btn-outline-white wow fadeInDown"
+                            <a href="{% url 'bookings:login' %}" class="btn btn-outline-white wow fadeInDown"
                                 data-wow-delay="0.4s">LOGIN</a>
                             <a href="#" class="btn btn-outline-white wow fadeInDown"
                                 data-wow-delay="0.4s">REGISTER</a>

@@ -38,9 +38,10 @@ class Field(models.Model):
 class Price(models.Model):
     price = models.DecimalField(max_digits=6, decimal_places=0)
     price_name = models.CharField(max_length=50)
+    point_required = models.DecimalField(max_digits=5, decimal_places=0)
 
     def __str__(self):
-        return "Rp. %s" % self.price
+        return "Rp. {} ({})".format(self.price, self.point_required)
 
 class Time(models.Model):
     price = models.ForeignKey(Price, on_delete=models.CASCADE)
@@ -53,9 +54,12 @@ class Booking(models.Model):
     booking_code = models.CharField(primary_key=True, default=uuid.uuid4().hex[:5].upper(), max_length=50, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     field = models.ForeignKey(Field, on_delete=models.CASCADE)
-    time = models.ForeignKey(Time, on_delete=models.CASCADE)
+    time = models.ManyToManyField(Time)
     date = models.DateField()
     timestamp = models.DateTimeField(auto_now_add=True)
+
+    def get_time(self):
+        return "\n".join([str(t) for t in self.time.all()])
 
     def __str__(self):
         return self.booking_code

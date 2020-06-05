@@ -10,6 +10,12 @@ urlpatterns = [
     path('get-time/', views.GetTime, name='get_time'),
     path('get-schedule/', views.GetSchedule, name='get_schedule'),
     path('get-sch/', views.GetSch, name='get_sch'),
+
+    path('logout/', views.Logout, name='logout'),
+    path('login/', views.Login, name='login'),
+    path('register/', views.Register, name='register'),
+
+    path("create-booking/", views.CreateBooking, name="create_booking")
 ]
 
 if settings.DEBUG:
