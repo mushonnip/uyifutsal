@@ -135,9 +135,10 @@
                             <h5 class="text-uppercase mb-5 white-text wow fadeInDown" data-wow-delay="0.4s">
                                 <strong>TINGKATKAN SKILL BERMAINMU DISINI</strong></h5>
                             {% if user.is_authenticated %}
+                            <div class="d-flex justify-content-center"><img src="{{ user.profile.avatar.url }}" alt="sample image"
+                                class="avatar rounded-circle" width="100"></div>
                             <h5 class="text-uppercase mb-5 white-text wow fadeInDown" data-wow-delay="0.4s">
                                 <strong>{{ user.username }}</strong></h5>
-
                             {% if user.is_superuser %}
                             <a href="admin/" class="btn btn-outline-white wow fadeInDown"
                                 data-wow-delay="0.4s">DASHBOARD</a>
@@ -146,12 +147,12 @@
                             {% endif %}
 
 
-                            <a href="{% url 'bookings:logout' %}" class="btn btn-outline-white wow fadeInDown"
+                            <a href="{% url 'logout' %}" class="btn btn-outline-white wow fadeInDown"
                                 data-wow-delay="0.4s">LOGOUT</a>
                             {% else %}
                             <a href="{% url 'bookings:login' %}" class="btn btn-outline-white wow fadeInDown"
                                 data-wow-delay="0.4s">LOGIN</a>
-                            <a href="#" class="btn btn-outline-white wow fadeInDown"
+                            <a href="{% url 'bookings:register' %}" class="btn btn-outline-white wow fadeInDown"
                                 data-wow-delay="0.4s">REGISTER</a>
 
                             {% endif %}

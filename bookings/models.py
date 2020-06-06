@@ -4,9 +4,11 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    point = models.IntegerField(null=True, blank=True)
+    point = models.IntegerField(default=10, null=True, blank=True)
+    avatar = models.ImageField(default='/media/avatar.png',height_field=None, width_field=None, max_length=None)
     
     def __str__(self):
         return self.user.username
@@ -50,13 +52,17 @@ class Time(models.Model):
     def __str__(self):
         return self.time
 
+
+
+
 class Booking(models.Model):
-    booking_code = models.CharField(primary_key=True, default=uuid.uuid4().hex[:5].upper(), max_length=50, editable=False)
+    booking_code = models.CharField(max_length=50, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     field = models.ForeignKey(Field, on_delete=models.CASCADE)
     time = models.ManyToManyField(Time)
     date = models.DateField()
     timestamp = models.DateTimeField(auto_now_add=True)
+    
 
     def get_time(self):
         return "\n".join([str(t) for t in self.time.all()])
@@ -64,4 +70,15 @@ class Booking(models.Model):
     def __str__(self):
         return self.booking_code
 
+STATUS_CHOICES = (
+   ('Lunas', 'Selesai'),
+   ('Belum Lunas', 'Belum Selesai')
+)
 
+class BookingTime(models.Model):
+    booking = models.ForeignKey(Booking, on_delete=models.CASCADE)
+    # time = models.ForeignKey(Time, on_delete=models.CASCADE)
+    status = models.CharField(choices=STATUS_CHOICES, max_length=128)
+
+    def __str__(self):
+        return self.booking.booking_code

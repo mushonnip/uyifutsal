@@ -99,7 +99,7 @@
                     <h5>Jadwal</h5>
                     <div class="md-form">
                         <input placeholder="Selected date" type="text" id="prefill" class="form-control datepicker"
-                            data-value="now">
+                            data-value="now" name="date">
                         <label for="prefill"></label>
                     </div>
                     <p>Filter:</p>
@@ -121,14 +121,6 @@
 
                         </tbody>
                     </table>
-                    <form method="POST">
-                        {% csrf_token %}
-                        {{ form }}
-                        <!-- <input id="field_id" type="text" name="field_id" maxlength="100">
-                        <input id="time" type="text" name="date maxlength="100">
-                        <input id="date type="text" name="date" maxlength="100"> -->
-                        <input type="submit" value="Submit">
-                    </form>
 
                     <!-- bayar -->
                     <div class="modal fade" id="modalPembayaran" tabindex="-1" role="dialog"
@@ -155,19 +147,21 @@
                                         <tbody id="tblPembayaran">
                                         </tbody>
                                     </table>
-                                    <h6>Poinmu sekarang: {{ user.profile.point }}</h6>
+                                    <div class="details">
+                                        
+                                    </div>
                                 </div>
                                 
                                 <div class="modal-footer d-flex justify-content-center">
-                                    <button class="btn btn-primary">Bayar</button>
+                                    <button class="btn btn-primary" onclick="bayar()">Bayar</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-
+                    
                     <div class="text-center">
                         <a href="" class="btn btn-primary btn-rounded mb-4 btnPembayaran" data-toggle="modal"
-                            data-target="#modalPembayaran" id="btnPembayaran">Pembayaran</a>
+                            data-target="#modalPembayaran" id="btnPembayaran" onclick="pembayaran()">Pembayaran</a>
                     </div>
 
                     <!-- bayar -->
@@ -183,18 +177,28 @@
 {% endblock body %}
 
 {% block js %}
+{% csrf_token %}
 <script src="{% static 'js/moment-with-locales.js' %}"></script>
 <script>
     var scheduleLength;
     var schedule;
+    var tempChart;
     var keranjang = [];
+    var dateValue
+    var cost = 0;
+    var csrf_token = jQuery('[name=csrfmiddlewaretoken]').val();
+    $.ajaxSetup({
+        headers: {
+            'X-CSRFToken': csrf_token
+        }
+    });
     $(document).ready(() => {
 
         $('#prefill').pickadate({
             min: true,
         });
 
-        var dateValue = moment($('.datepicker').val()).format('YYYY-MM-DD');
+        dateValue = moment($('.datepicker').val()).format('YYYY-MM-DD');
 
         $('.datepicker').on('change', function () {
             dateValue = moment($('.datepicker').val()).format('YYYY-MM-DD');
@@ -208,6 +212,26 @@
 
     }); //document ready
 
+    function bayar(){
+        $.ajax({
+            type: 'POST',
+            url: '/create-booking/{{ field.id }}/',
+            data: {
+                'date': dateValue,
+                'time': JSON.stringify(keranjang)
+            },
+            success:function (data) {
+                console.log(data.message)
+                $("#modalPembayaran").modal('hide');
+                clearTable()
+                getSch(dateValue, `{{ field.id }}`);
+                swal("Berhasil!", "Kode bookingmu ["+data.message+"]", "success");
+            },
+            error:function () {
+                swal("Gagal!", "Silakan login dulu", "error");
+            }
+        })
+    }
 
     function getSch(date, field_id) {
         $.ajax({
@@ -228,6 +252,7 @@
     function setDataTable(params) {
         params.forEach(element => {
             if (element.id != null) {
+                tempChart = `{"id": ${element.id},"time":"${element.time}","price":"${element.price}", "point_required":"${element.point_required}"}`
                 $('#scheduleTable').append(
                     `<tr>
                     <th scope="row">${element.time}</th>
@@ -235,7 +260,7 @@
                         ${element.status ? '<td><span class="badge badge-danger">Tidak Tersedia</span></td>' : '<td><span class="badge badge-primary">Tersedia</span></td>'}
                         <td>
                             <div class="form-check">
-                                <input type="checkbox" class="form-check-input" id="c${element.id}" value='{"id": "${element.id}","time":"${element.time}","price":"${element.price}", "point_required":"${element.point_required}"}' name="time" ${element.status ? 'disabled' : ''}>
+                                <input type="checkbox" class="form-check-input" value='{"id": ${element.id},"time":"${element.time}","price":"${element.price}", "point_required":"${element.point_required}"}' id="c${element.id}" name="time" ${element.status ? 'disabled' : ''}>
                                 <label class="form-check-label" for="c${element.id}"></label>
                             </div>
                         </td>
@@ -260,16 +285,18 @@
         $('#scheduleTable').empty();
     }
 
-    $("#modalPembayaran").on('show.bs.modal', function () {
+    $("#modalPembayaran").on('show.bs.modal', function (e) {
         console.clear();
         keranjang = []
         $('#tblPembayaran').empty()
         $.each($("input[name='time']:checked"), function () {
             // console.table($(this).val());
             keranjang.push(JSON.parse($(this).val()));
+            // keranjang.push(JSON.parse(tempChart));
 
         });
         var i = 1;
+       
         keranjang.forEach(element => {
             $('#tblPembayaran').append(
                 `
@@ -285,6 +312,22 @@
         });
         // console.table(JSON.parse($(this).val()));
         console.table(keranjang);
+        cost = 0
+        keranjang.forEach(element => {
+            cost+=Number(element.point_required)
+        });
+        console.log(cost)
+
+        $('.details').html(
+            `
+            <h6 class="">Poinmu sekarang: {{ user.profile.point }}</h6>
+            <h6 class="">Biaya: ${cost}</h6>
+            `
+        )
+        if (cost==0) {
+            swal("Gagal!", "Silakan pilih dulu", "error");
+        }
+        
     });
 
 

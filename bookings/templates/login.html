@@ -147,7 +147,7 @@
 
                                     <!--Body-->
                                     {% for message in messages %}
-                                    <div {% if message.tags %} class="alert alert-danger text-center" {% endif %}>
+                                    <div {% if message.tags %} class="alert alert-{% if message.tags == "error" %}danger {% else %} {message.tags}} {% endif %} text-center" {% endif %}>
                                         {{ message }}
                                     </div>
                                     {% endfor %}

@@ -8,6 +8,7 @@ REPOSITORY_ROOT = os.path.dirname(BASE_DIR)
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG')
 ALLOWED_HOSTS = ['127.0.0.1']
+LOGOUT_REDIRECT_URL = '/'
 
 INSTALLED_APPS = [
     'uyifutsal',
