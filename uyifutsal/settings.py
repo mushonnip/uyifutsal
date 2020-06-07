@@ -11,6 +11,8 @@ ALLOWED_HOSTS = ['127.0.0.1']
 LOGOUT_REDIRECT_URL = '/'
 
 INSTALLED_APPS = [
+    'adminlte3',
+    'adminlte3_theme',
     'uyifutsal',
     'bookings',
     'django.contrib.admin',

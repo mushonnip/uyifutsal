@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import Field, Floor, Time, Price, Booking, Profile, BookingTime
+from .models import Field, Floor, Time, Price, Booking, Profile, Review
 from django.contrib.auth.models import User
 
 class FieldAdmin(admin.ModelAdmin):
@@ -13,7 +13,7 @@ class TimeAdmin(admin.ModelAdmin):
     list_display = ('pk', 'time', 'price')
 
 class BookingAdmin(admin.ModelAdmin):
-    list_display = ('booking_code', 'user', 'date', 'get_time')
+    list_display = ('booking_code', 'user', 'date', 'time')
 
 class ProfileInline(admin.StackedInline):
     model = Profile
@@ -35,6 +35,8 @@ class CustomUserAdmin(UserAdmin):
             return list()
         return super(CustomUserAdmin, self).get_inline_instances(request, obj)
 
+class ReviewAdmin(admin.ModelAdmin):
+    list_display = ('user', 'date', 'rating')
 
 admin.site.unregister(User)
 admin.site.register(User, CustomUserAdmin)
@@ -43,6 +45,6 @@ admin.site.register(Floor)
 admin.site.register(Time, TimeAdmin)
 admin.site.register(Price, PriceAdmin)
 admin.site.register(Booking, BookingAdmin)
-admin.site.register(BookingTime)
+admin.site.register(Review, ReviewAdmin)
 # admin.site.register(User)
 

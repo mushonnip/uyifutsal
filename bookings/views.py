@@ -2,7 +2,7 @@ import json, uuid
 from django.http import Http404, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
-from .models import Booking, Field, Time, Price
+from .models import Booking, Field, Time, Price, Review
 from django.http import JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
@@ -18,6 +18,12 @@ class IndexView(generic.ListView):
     def get_queryset(self):
         return Field.objects.all()
 
+    def get_context_data(self, **kwargs):
+        context = super(IndexView, self).get_context_data(**kwargs)
+        context['review_list'] = Review.objects.all()
+        return context
+
+
 def update_profile(request, user_id, new_point):
     user = User.objects.get(pk=user_id)
     user.profile.point = new_point
@@ -27,22 +33,24 @@ def update_profile(request, user_id, new_point):
 @login_required
 def add_booking(request, field_id):
     field = get_object_or_404(Field, pk=field_id)
-    book = Booking()
+    
     if request.is_ajax() and request.POST:
-        book_code = uuid.uuid1().hex[:3] + '-' + uuid.uuid4().hex[:3]
-        book.booking_code = book_code.upper()
-        book.field = Field.objects.get(pk=field_id)
-        book.date  = request.POST.get('date')
-        book.user = request.user
         times = json.loads(request.POST.get('time'))
+        book_code = uuid.uuid1().hex[:3] + '-' + uuid.uuid4().hex[:3]
+        for i in times:
+            book = Booking()
+            t = i.get('id')
+            book.time_id = t
+            book.booking_code = book_code.upper()
+            book.field = Field.objects.get(pk=field_id)
+            book.date  = request.POST.get('date')
+            book.user = request.user    
+            book.save() 
         # user = request.user.id
         # user.profile.point = new_point
         # user.save()
-        book.save()
         
-        for i in times:
-            time_id = i.get('id')
-            book.time.add(time_id)
+        # book.save()
 
         data = {'message': book.booking_code}
 
@@ -58,7 +66,7 @@ def add_booking(request, field_id):
 
 def Detail(request, field_id):
     field = get_object_or_404(Field, pk=field_id)
-    schedule = Booking
+    schedule = Booking.objects.all()
 
     context = {
         'field': field,
@@ -66,6 +74,14 @@ def Detail(request, field_id):
     }
 
     return render(request, 'detail.html', context)
+
+def Dashboard(request):
+    booking = Booking.objects.all().order_by('-timestamp')
+
+    context = {
+        'booking': booking,
+    }
+    return render(request, 'dashboard.html', context)
 
 def Login(request):
     if request.user.is_authenticated:
@@ -108,28 +124,21 @@ def GetSch(request):
     _field_id = request.GET.get('_field_id', None)
     times = Time.objects.all().values()
     prices = Price.objects.all().values()
-    # schedule = Booking.objects.all().values().filter(date=_date, field_id=_field_id)
-    schedules = Booking.objects.all().filter(date=_date, field_id=_field_id)
+    schedules = Booking.objects.all().values().filter(date=_date, field_id=_field_id)
+    # schedules = Booking.objects.all().filter(date=_date, field_id=_field_id)
     sch_lists = list(times)
     book_lists = list(schedules)
     price_lists = list(prices)
-
-    lis = []
-    for _ in schedules:
-        _time = _.time.all()
-        for t in _time:
-            lis.append(t)
-            
-
+    
     for i, x in enumerate(sch_lists):
         for p in price_lists:
             if x['price_id'] == p['id']:
                 sch_lists[i]['price'] = p['price']
                 sch_lists[i]['point_required'] = p['point_required']
-        for y in book_lists:
-            for a in lis:
-                if x['time'] == a.time:
-                    sch_lists[i]['status'] = 'booked'
+        for a in book_lists:
+            if x['id'] == a['time_id']:
+                sch_lists[i]['status'] = 'booked'
+    
 
     return JsonResponse(sch_lists, safe=False)
 

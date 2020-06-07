@@ -53,32 +53,32 @@ class Time(models.Model):
         return self.time
 
 
-
+STATUS_CHOICES = (
+   ('Selesai', 'Selesai'),
+   ('Belum Selesai', 'Belum Selesai')
+)
 
 class Booking(models.Model):
-    booking_code = models.CharField(max_length=50, editable=False)
+    booking_code = models.CharField(default=uuid.uuid1().hex[:3] + '-' + uuid.uuid4().hex[:3], max_length=50, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     field = models.ForeignKey(Field, on_delete=models.CASCADE)
-    time = models.ManyToManyField(Time)
+    time = models.ForeignKey(Time, on_delete=models.CASCADE)
     date = models.DateField()
     timestamp = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(default='Belum Selesai', choices=STATUS_CHOICES, max_length=100)
     
 
-    def get_time(self):
-        return "\n".join([str(t) for t in self.time.all()])
+    # def get_time(self):
+    #     return "\n".join([str(t) for t in self.time.all()])
 
     def __str__(self):
         return self.booking_code
 
-STATUS_CHOICES = (
-   ('Lunas', 'Selesai'),
-   ('Belum Lunas', 'Belum Selesai')
-)
-
-class BookingTime(models.Model):
-    booking = models.ForeignKey(Booking, on_delete=models.CASCADE)
-    # time = models.ForeignKey(Time, on_delete=models.CASCADE)
-    status = models.CharField(choices=STATUS_CHOICES, max_length=128)
+class Review(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    date = models.DateField()
+    rating = models.DecimalField(max_digits=5, decimal_places=0)
+    text = models.CharField(max_length=200)
 
     def __str__(self):
-        return self.booking.booking_code
+        return self.user.username

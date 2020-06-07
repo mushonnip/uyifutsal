@@ -158,10 +158,11 @@
                             </div>
                         </div>
                     </div>
-                    
+
+                 
                     <div class="text-center">
                         <a href="" class="btn btn-primary btn-rounded mb-4 btnPembayaran" data-toggle="modal"
-                            data-target="#modalPembayaran" id="btnPembayaran" onclick="pembayaran()">Pembayaran</a>
+                            data-target="#modalPembayaran" id="btnPembayaran">Pembayaran</a>
                     </div>
 
                     <!-- bayar -->
@@ -285,14 +286,12 @@
         $('#scheduleTable').empty();
     }
 
-    $("#modalPembayaran").on('show.bs.modal', function (e) {
+    $("#modalPembayaran").on('shown.bs.modal', function (e) {
         console.clear();
         keranjang = []
         $('#tblPembayaran').empty()
         $.each($("input[name='time']:checked"), function () {
-            // console.table($(this).val());
             keranjang.push(JSON.parse($(this).val()));
-            // keranjang.push(JSON.parse(tempChart));
 
         });
         var i = 1;
@@ -316,7 +315,7 @@
         keranjang.forEach(element => {
             cost+=Number(element.point_required)
         });
-        console.log(cost)
+        
 
         $('.details').html(
             `
@@ -325,7 +324,8 @@
             `
         )
         if (cost==0) {
-            swal("Gagal!", "Silakan pilih dulu", "error");
+            $("#modalPembayaran").modal('hide');
+            swal("Gagal!", "Silakan pilih waktunya dulu", "error");
         }
         
     });
