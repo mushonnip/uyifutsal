@@ -187,6 +187,7 @@
     var keranjang = [];
     var dateValue
     var cost = 0;
+    var new_point = {{ user.profile.point }};
     var csrf_token = jQuery('[name=csrfmiddlewaretoken]').val();
     $.ajaxSetup({
         headers: {
@@ -214,12 +215,14 @@
     }); //document ready
 
     function bayar(){
+        new_point -= cost
         $.ajax({
             type: 'POST',
             url: '/create-booking/{{ field.id }}/',
             data: {
                 'date': dateValue,
-                'time': JSON.stringify(keranjang)
+                'time': JSON.stringify(keranjang),
+                'new_point': new_point
             },
             success:function (data) {
                 console.log(data.message)
@@ -227,6 +230,7 @@
                 clearTable()
                 getSch(dateValue, `{{ field.id }}`);
                 swal("Berhasil!", "Kode bookingmu ["+data.message+"]", "success");
+                
             },
             error:function () {
                 swal("Gagal!", "Silakan login dulu", "error");
@@ -319,7 +323,7 @@
 
         $('.details').html(
             `
-            <h6 class="">Poinmu sekarang: {{ user.profile.point }}</h6>
+            <h6 class="">Poinmu sekarang: ${new_point}</h6>
             <h6 class="">Biaya: ${cost}</h6>
             `
         )

@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import Field, Floor, Time, Price, Booking, Profile, Review
+from .models import Field, Floor, Time, Price, Booking, Profile, Review, Schedule
 from django.contrib.auth.models import User
 
 class FieldAdmin(admin.ModelAdmin):
@@ -46,5 +46,6 @@ admin.site.register(Time, TimeAdmin)
 admin.site.register(Price, PriceAdmin)
 admin.site.register(Booking, BookingAdmin)
 admin.site.register(Review, ReviewAdmin)
+admin.site.register(Schedule)
 # admin.site.register(User)
 

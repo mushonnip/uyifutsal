@@ -82,3 +82,9 @@ class Review(models.Model):
 
     def __str__(self):
         return self.user.username
+
+class Schedule(models.Model):
+    date = models.DateTimeField()
+    
+    def __str__(self):
+        return "{}".format(self.date)

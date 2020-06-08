@@ -46,9 +46,9 @@ def add_booking(request, field_id):
             book.date  = request.POST.get('date')
             book.user = request.user    
             book.save() 
-        # user = request.user.id
-        # user.profile.point = new_point
-        # user.save()
+        user = request.user
+        user.profile.point = request.POST.get('new_point')
+        user.save()
         
         # book.save()
 

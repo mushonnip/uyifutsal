@@ -9,10 +9,13 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG')
 ALLOWED_HOSTS = ['127.0.0.1']
 LOGOUT_REDIRECT_URL = '/'
+JET_PROJECT = 'uyifutsal'
+JET_TOKEN = 'cd21b58c-6348-434f-919e-26dc74e8b4f1'
+X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 INSTALLED_APPS = [
-    'adminlte3',
-    'adminlte3_theme',
+    'jet',
+    'jet_django',
     'uyifutsal',
     'bookings',
     'django.contrib.admin',
