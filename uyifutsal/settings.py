@@ -14,6 +14,7 @@ JET_TOKEN = 'cd21b58c-6348-434f-919e-26dc74e8b4f1'
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 INSTALLED_APPS = [
+    'jet.dashboard',
     'jet',
     'jet_django',
     'uyifutsal',
