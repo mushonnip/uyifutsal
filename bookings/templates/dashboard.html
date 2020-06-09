@@ -3,7 +3,7 @@
 
 
 {% block head %}
-    
+    <title>Dashboard</title>
 {% endblock head %}
 
 
@@ -40,26 +40,6 @@
                 <i class="w-fa fas fa-tachometer-alt"></i>Dashboards<i class="fas fa-angle-down rotate-icon"></i>
               </a>
               <div class="collapsible-body">
-                <ul>
-                  <li>
-                    <a href="../dashboards/v-1.html" class="waves-effect">Version 1</a>
-                  </li>
-                  <li>
-                    <a href="../dashboards/v-2.html" class="waves-effect">Version 2</a>
-                  </li>
-                  <li>
-                    <a href="../dashboards/v-3.html" class="waves-effect">Version 3</a>
-                  </li>
-                  <li>
-                    <a href="../dashboards/v-4.html" class="waves-effect">Version 4</a>
-                  </li>
-                  <li>
-                    <a href="../dashboards/v-5.html" class="waves-effect">Version 5</a>
-                  </li>
-                  <li>
-                    <a href="../dashboards/v-6.html" class="waves-effect">Version 6</a>
-                  </li>
-                </ul>
               </div>
             </li>
             <li>
@@ -312,7 +292,7 @@
 
       <!-- Breadcrumb -->
       <div class="breadcrumb-dn mr-auto">
-        <p>{{ user.get_full_name }}</p>
+        <p>Dashboard</p>
       </div>
 
       <!-- Navbar links -->
@@ -320,7 +300,7 @@
 
         <!-- Dropdown -->
         <li class="nav-item dropdown notifications-nav">
-          <a class="nav-link dropdown-toggle waves-effect" id="navbarDropdownMenuLink" data-toggle="dropdown"
+          <!-- <a class="nav-link dropdown-toggle waves-effect" id="navbarDropdownMenuLink" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
             <span class="badge red">3</span> <i class="fas fa-bell"></i>
             <span class="d-none d-md-inline-block">Notifications</span>
@@ -345,18 +325,23 @@
         </li>
         <li class="nav-item">
           <a class="nav-link waves-effect"><i class="fas fa-envelope"></i> <span class="clearfix d-none d-sm-inline-block">Contact</span></a>
-        </li>
+        </li>-->
         <li class="nav-item">
-          <a class="nav-link waves-effect"><i class="far fa-comments"></i> <span class="clearfix d-none d-sm-inline-block">Support</span></a>
-        </li>
+          <a href="/" class="nav-link waves-effect"><i class="fas fa-globe-asia"></i> <span class="clearfix d-none d-sm-inline-block">Open Site</span></a>
+        </li> 
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle waves-effect" href="#" id="userDropdown" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-user"></i> <span class="clearfix d-none d-sm-inline-block">Profile</span>
+            <i class="fas fa-user"></i> <span class="clearfix d-none d-sm-inline-block">
+              {% if user.get_full_name == '' %}
+                  {{ user.username }}
+              {% else %}
+                {{ user.get_full_name }}
+              {% endif %}
+            </span>
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-            <a class="dropdown-item" href="#">Log Out</a>
-            <a class="dropdown-item" href="#">My account</a>
+            <a class="dropdown-item" href="{% url 'logout' %}">Log Out</a>
           </div>
         </li>
 
@@ -822,7 +807,13 @@
               <!-- Card content -->
               <div class="card-body">
                 <!-- Title -->
-                <h4 class="card-title"><strong>{{ user.get_full_name }}</strong></h4>
+                <h4 class="card-title"><strong>
+                  {% if user.get_full_name == '' %}
+                  {{ user.username }}
+              {% else %}
+                {{ user.get_full_name }}
+              {% endif %}
+                </strong></h4>
                 <button type="button" class="btn btn-outline-primary waves-effect">{{ user.profile.point }}</button><br>
                 <button type="button" class="btn btn-info btn-rounded btn-sm" data-toggle="modal" data-target="#modalContactUser">Edit Profile</button>
               </div>
@@ -957,20 +948,6 @@
   </main>
   <!-- Main layout -->
 
-  <!-- Footer -->
-  <footer class="page-footer pt-0 mt-5">
-
-    <!-- Copyright -->
-    <div class="footer-copyright py-3 text-center">
-      <div class="container-fluid">
-        © 2019 Copyright: <a href="https://mdbootstrap.com/education/bootstrap/" target="_blank"> MDBootstrap.com </a>
-
-      </div>
-    </div>
-    <!-- Copyright -->
-
-  </footer>
-  <!-- Footer -->
 {% endblock body %}
     
 

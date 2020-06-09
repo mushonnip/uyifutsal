@@ -42,6 +42,26 @@
                         <a class="nav-link" href="#">Promo</a>
                     </li>
                 </ul>
+                <ul class="navbar-nav">
+                    {% if user.is_authenticated %}
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">{{ user.get_full_name }}
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item" href="/dashboard">Dashboard</a>
+                            <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                        </div>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'bookings:login' %}">Login</a>
+                    </li>
+                    {% endif %}
+                    </li>
+                </ul>
+
             </div>
         </div>
     </nav>
@@ -148,10 +168,17 @@
                                         </tbody>
                                     </table>
                                     <div class="details">
-                                        
+                                        <h6 class="">Poinmu sekarang:
+                                            <span class="spinner-grow spinner-grow-sm" role="status"></span>
+                                            <span class="sr-only">Loading...</span>
+                                        </h6>
+                                        <h6 class="">Biaya:
+                                            <span class="spinner-grow spinner-grow-sm" role="status"></span>
+                                            <span class="sr-only">Loading...</span>
+                                        </h6>
+
                                     </div>
                                 </div>
-                                
                                 <div class="modal-footer d-flex justify-content-center">
                                     <button class="btn btn-primary" onclick="bayar()">Bayar</button>
                                 </div>
@@ -159,11 +186,18 @@
                         </div>
                     </div>
 
-                 
+                    {% if user.is_authenticated %}
                     <div class="text-center">
-                        <a href="" class="btn btn-primary btn-rounded mb-4 btnPembayaran" data-toggle="modal"
-                            data-target="#modalPembayaran" id="btnPembayaran">Pembayaran</a>
+                        <a class="btn btn-primary btn-rounded mb-4 btnPembayaran" id="btnPembayaran" onclick="pembayaran()">Pembayaran</a>
                     </div>
+                    {% else %}
+                    <div class="text-center">
+                        <button type="button" class="btn btn-primary btn-rounded mb-4 btnPembayaran"
+                            disabled>Pembayaran</button>
+                        <p class="text-danger">Anda harus <a href="{% url 'bookings:login' %}">Login</a> untuk melakukan
+                            booking</p>
+                    </div>
+                    {% endif %}
 
                     <!-- bayar -->
                 </div>
@@ -187,7 +221,7 @@
     var keranjang = [];
     var dateValue
     var cost = 0;
-    var new_point = {{ user.profile.point }};
+    var new_point = `{{ user.profile.point }}`;
     var csrf_token = jQuery('[name=csrfmiddlewaretoken]').val();
     $.ajaxSetup({
         headers: {
@@ -195,6 +229,8 @@
         }
     });
     $(document).ready(() => {
+
+        $(".button-collapse").sideNav();
 
         $('#prefill').pickadate({
             min: true,
@@ -210,32 +246,34 @@
 
         getSch(dateValue, `{{ field.id }}`);
 
-
-
     }); //document ready
 
-    function bayar(){
-        new_point -= cost
-        $.ajax({
-            type: 'POST',
-            url: '/create-booking/{{ field.id }}/',
-            data: {
-                'date': dateValue,
-                'time': JSON.stringify(keranjang),
-                'new_point': new_point
-            },
-            success:function (data) {
-                console.log(data.message)
-                $("#modalPembayaran").modal('hide');
-                clearTable()
-                getSch(dateValue, `{{ field.id }}`);
-                swal("Berhasil!", "Kode bookingmu ["+data.message+"]", "success");
-                
-            },
-            error:function () {
-                swal("Gagal!", "Silakan login dulu", "error");
-            }
-        })
+    function bayar() {
+        if (new_point < cost) {
+            swal("Gagal!", "Pointmu tidak cukup", "error");
+        } else {
+            new_point -= cost
+            $.ajax({
+                type: 'POST',
+                url: '/create-booking/{{ field.id }}/',
+                data: {
+                    'date': dateValue,
+                    'time': JSON.stringify(keranjang),
+                    'new_point': new_point
+                },
+                success: function (data) {
+                    console.log(data.message)
+                    $("#modalPembayaran").modal('hide');
+                    clearTable()
+                    getSch(dateValue, `{{ field.id }}`);
+                    swal("Berhasil!", "Kode bookingmu [" + data.message + "]", "success");
+
+                },
+                error: function () {
+                    swal("Gagal!", "Silakan login dulu", "error");
+                }
+            })
+        }
     }
 
     function getSch(date, field_id) {
@@ -290,7 +328,7 @@
         $('#scheduleTable').empty();
     }
 
-    $("#modalPembayaran").on('shown.bs.modal', function (e) {
+    function pembayaran() {
         console.clear();
         keranjang = []
         $('#tblPembayaran').empty()
@@ -299,42 +337,49 @@
 
         });
         var i = 1;
-       
+
         keranjang.forEach(element => {
             $('#tblPembayaran').append(
                 `
-    <tr>
-        <th scope="row">${i}</th>
-        <td id="simple">${element.time}</td>
-        <td>Rp. ${element.price}</td>
-        <td>${element.point_required}</td>
-    </tr>
-    ${i += 1}
-    `
+                <tr>
+                <th scope="row">${i}</th>
+                <td id="simple">${element.time}</td>
+                <td>Rp. ${element.price}</td>
+                <td>${element.point_required}</td>
+                </tr>${i += 1}
+                `
             );
         });
-        // console.table(JSON.parse($(this).val()));
         console.table(keranjang);
         cost = 0
         keranjang.forEach(element => {
-            cost+=Number(element.point_required)
+            cost += Number(element.point_required)
         });
-        
 
-        $('.details').html(
-            `
-            <h6 class="">Poinmu sekarang: ${new_point}</h6>
-            <h6 class="">Biaya: ${cost}</h6>
-            `
-        )
-        if (cost==0) {
-            $("#modalPembayaran").modal('hide');
-            swal("Gagal!", "Silakan pilih waktunya dulu", "error");
-        }
-        
-    });
+        $.ajax({
+            type: "POST",
+            url: "/get-point/",
+            data: {
+                'user_id': {{ user.id }}
+            },
+            success: function (response) {
+            
+                $('.details').html(`
+                    <h6 class="">Poinmu sekarang: ${response.point}</h6>
+                    <h6 class="">Biaya: ${cost}</h6>`
+                )
+                console.log(response)
+            }
+        });
 
 
+    if (cost == 0) {
+        $("#modalPembayaran").modal('hide');
+        swal("Gagal!", "Silakan pilih waktunya dulu", "error");
+    }else{
+        $("#modalPembayaran").modal('show')
+    }
+    }
 </script>
 
 {% endblock js %}

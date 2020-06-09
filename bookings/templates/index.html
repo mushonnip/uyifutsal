@@ -138,12 +138,19 @@
                             <div class="d-flex justify-content-center"><img src="{{ user.profile.avatar.url }}" alt="sample image"
                                 class="avatar rounded-circle" width="100"></div>
                             <h5 class="text-uppercase mb-5 white-text wow fadeInDown" data-wow-delay="0.4s">
-                                <strong>{{ user.username }}</strong></h5>
+                                
+                                <strong>
+                                {% if user.get_full_name == '' %}
+                                    {{ user.username }}
+                                {% else %}
+                                    {{ user.get_full_name }}
+                                {% endif %}
+                                </strong></h5>
                             {% if user.is_superuser %}
                             <a href="admin/" class="btn btn-outline-white wow fadeInDown"
                                 data-wow-delay="0.4s">DASHBOARD</a>
                             {% else %}
-                            <a href="#" class="btn btn-outline-white wow fadeInDown" data-wow-delay="0.4s">DASHBOARD</a>
+                            <a href="/dashboard/" class="btn btn-outline-white wow fadeInDown" data-wow-delay="0.4s">DASHBOARD</a>
                             {% endif %}
 
 
@@ -253,17 +260,13 @@
 
         <!-- Section: Product detail -->
         <div class="divider-new">
-
             <h3 class="h3-responsive font-weight-bold blue-text mx-3">Ulasan Pelanggan</h3>
-
         </div>
 
         <!-- Ulasan Pelanggan -->
         <section id="reviews" class="pb-5">
-
             <!-- Main wrapper -->
             <div class="comments-list text-center text-md-left">
-                
                 {% for item in review_list %}
                 <!-- First row -->
                 <div class="row mb-5">
@@ -276,7 +279,13 @@
                     <!-- Content column -->
                     <div class="col-sm-10 col-12">
                         <a>
-                            <h5 class="user-name font-weight-bold">{{ item.user }}</h5>
+                            <h5 class="user-name font-weight-bold">
+                            {% if user.get_full_name == '' %}
+                                    {{ user.username }}
+                                {% else %}
+                                    {{ user.get_full_name }}
+                                {% endif %}
+                            </h5>
                         </a>
                         <!-- Rating -->
                         <ul class="rating">
@@ -396,36 +405,11 @@
 
             <hr class="w-100 clearfix d-md-none">
 
-            <!--Second column-->
-            <div class="col-md-2 ml-auto">
-                <h5 class="text-uppercase font-weight-bold">Links</h5>
-                <ul class="list-unstyled">
-                    <li><a href="#!">Link 1</a></li>
-                    <li><a href="#!">Link 2</a></li>
-                    <li><a href="#!">Link 3</a></li>
-                    <li><a href="#!">Link 4</a></li>
-                </ul>
-            </div>
-            <!--/.Second column-->
-
-            <hr class="w-100 clearfix d-md-none">
-
-            <!--Third column-->
-            <div class="col-md-2 ml-auto">
-                <h5 class="text-uppercase font-weight-bold">Links</h5>
-                <ul class="list-unstyled">
-                    <li><a href="#!">Link 1</a></li>
-                    <li><a href="#!">Link 2</a></li>
-                    <li><a href="#!">Link 3</a></li>
-                    <li><a href="#!">Link 4</a></li>
-                </ul>
-            </div>
-            <!--/.Third column-->
 
             <hr class="w-100 clearfix d-md-none">
 
             <!--Fourth column-->
-            <div class="col-md-2 ml-auto">
+            <!-- <div class="col-md-2 ml-auto">
                 <h5 class="text-uppercase font-weight-bold">Links</h5>
                 <ul class="list-unstyled">
                     <li><a href="#!">Link 1</a></li>
@@ -433,7 +417,7 @@
                     <li><a href="#!">Link 3</a></li>
                     <li><a href="#!">Link 4</a></li>
                 </ul>
-            </div>
+            </div> -->
             <!--/.Fourth column-->
 
         </div>
@@ -465,6 +449,5 @@
 
 {% block js %}
 <script>
-    new WOW().init();
 </script>
 {% endblock js %}

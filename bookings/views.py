@@ -62,6 +62,19 @@ def add_booking(request, field_id):
     else:
         raise Http404
 
+@login_required
+def get_point(request):
+    user = get_object_or_404(User, pk=request.POST.get('user_id'))
+    
+    if request.is_ajax() and request.POST:
+        data = {
+            'point': user.profile.point,
+        }
+
+        return HttpResponse(json.dumps(data), content_type='application/json')
+    else:
+        raise Http404
+
 
 
 def Detail(request, field_id):
@@ -146,3 +159,5 @@ def CreateBooking(request):
     form = CreateBookingForm()
     return render(request, 'detail.html', {'form':form})
 
+def Admin(request):
+    return redirect('http://app.jetadmin.io/app/uyifutsal/dashboards/153082')
