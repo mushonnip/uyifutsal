@@ -877,7 +877,7 @@
                             <td>{{ book.booking_code }}</td>
                             <td>{{ book.date }}</td>
                             <td>{{ book.time }}</td>
-                            <td><span class="badge badge-{% if book.status == 'Selesai' %}primary{% elif book.status == 'Belum Selesai' %}warning{% else %}danger{% endif %}">{{ book.status }}</span></td>
+                            <td><span class="badge badge-{% if book.status == 'Selesai' %}primary{% elif book.status == 'Pending' %}warning{% else %}danger{% endif %}">{{ book.status }}</span></td>
                             <td></td>
                         </tr>
                         {% endif %}

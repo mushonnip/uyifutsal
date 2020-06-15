@@ -1,0 +1,152 @@
+{% extends "sadmin/layouts/base.html" %}
+
+{% block title %} Dashboard {% endblock %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="pcoded-content">
+    <div class="pcoded-inner-content">
+        <!-- [ breadcrumb ] start -->
+
+        <!-- [ breadcrumb ] end -->
+        <div class="main-body">
+            <div class="page-wrapper">
+                <!-- [ Main Content ] start -->
+                <div class="row">
+                    <!--[ Recent Users ] start-->
+                    <div class="col-xl-8 col-md-6">
+                        <div class="card Recent-Users">
+                            <div class="card-header">
+                                <h5>Jadwal Hari Ini</h5>
+                            </div>
+                            <div class="card-block px-0 py-3">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <tbody id="today">
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--[ Recent Users ] end-->
+
+                    <!-- [ statistics year chart ] start -->
+                    <div class="col-xl-4 col-md-6">
+
+                        <div class="card">
+                            <div class="card-block border-bottom">
+                                <div class="row d-flex align-items-center">
+                                    <div class="col-auto">
+                                        <i class="feather icon-list f-30 text-c-green"></i>
+                                    </div>
+                                    <div class="col">
+                                        <h3 class="f-w-300">{{ bookings.count }}</h3>
+                                        <span class="d-block text-uppercase">TOTAL BOOKINGAN</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-block">
+                                <div class="row d-flex align-items-center">
+                                    <div class="col-auto">
+                                        <i class="feather icon-users f-30 text-c-blue"></i>
+                                    </div>
+                                    <div class="col">
+                                        <h3 class="f-w-300">{{ users.count }}</h3>
+                                        <span class="d-block text-uppercase">TOTAL USERS</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- [ Main Content ] end -->
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script>
+    var tuser =[];
+    $(document).ready(function () {
+
+    get_booking()
+
+    });
+
+    function setTodayTable(params) {
+        params.forEach(element => {
+            if (element.fields.date == moment().format('YYYY-MM-DD')) {
+                $('#today').append(`
+                <tr class="unread">
+                    <td><img class="rounded-circle" style="width:40px;" src="${element.fields.avatar}" alt="activity-user"></td>
+                        <td>
+                            <h6 class="text-muted">${element.fields.booking_code}</h6>
+                        </td>
+                        <td>
+                            <h6 class="mb-1">${element.fields.user}</h6>
+                            <p class="m-0">${element.fields.time}</p>
+                        </td>
+                        <td>
+                            <h6 class="text-muted"><i class="fas fa-circle text-c-${element.fields.status == 'Selesai' ? 'green': element.fields.status == 'Pending' ? 'yellow' : 'red'} f-10 m-r-15"></i></h6>           
+                        </td>
+                        <td><div class="btn-group mb-2 mr-2">
+                                    <button class="btn btn-${element.fields.status == 'Selesai' ? 'success': element.fields.status == 'Pending' ? 'warning' : 'danger'} dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">${element.fields.status}</button>
+                                    <div class="dropdown-menu">
+                                        ${element.fields.status == 'Selesai' ? `<a class="dropdown-item" href="#!">Pending</a>
+                                                                                <a class="dropdown-item" href="#!">Batal</a>
+                                                                                `: element.fields.status == 'Pending' ? 
+                                                                                `<a class="dropdown-item" href="#!">Selesai</a>
+                                                                                <a class="dropdown-item" href="#!">Batal</a>
+                                                                                ` : 
+                                                                                `<a class="dropdown-item" href="#!">Selesai</a>
+                                                                                <a class="dropdown-item" href="#!">Pending</a>
+                                                                                `}
+                                    </div>
+                                </div></td>
+                    </tr>`
+                )
+            }
+        });
+        if (params.length >= 0) {
+            $('#today').append('<div class="text-center">KOSONG</div>')
+        }
+    }
+
+    function get_booking() {
+        $.ajax({
+            type: "get",
+            url: "/sadmin/get-booking/",
+            dataType: "JSON",
+            success: response => {
+                console.table(response);
+                setTodayTable(response);
+            }
+        });
+    }
+
+    function get_user(params) {
+        $.ajax({
+            type: "GET",
+            url: "/sadmin/get-user/",
+            dataType: "JSON",
+            data:{
+                'id': params
+            },
+            success: response => {
+                // console.table(response);
+                return response
+            }
+        });
+    }
+
+</script>
+{% endblock javascripts %}

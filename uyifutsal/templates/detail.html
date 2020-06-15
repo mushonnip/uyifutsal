@@ -229,6 +229,7 @@
     var keranjang = [];
     var dateValue
     var cost = 0;
+    var cost_rp = 0;
     var new_point = `{{ user.profile.point }}`;
     var csrf_token = jQuery('[name=csrfmiddlewaretoken]').val();
     moment.locale('id')
@@ -310,7 +311,7 @@
                 $('#scheduleTable').append(
                     `<tr>
                     <th scope="row">${element.time}</th>
-                        <td>Rp. ${element.price}</td>
+                        <td>Rp ${element.price.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.")}</td>
                         ${element.status || ((Number(element.time.substring(0, 2)) <= moment(moment(), "hh").format('LT').substring(0, 2)) && dateValue == moment().format('YYYY-MM-DD')) ? '<td><span class="badge badge-danger">Tidak Tersedia</span></td>' : '<td><span class="badge badge-primary">Tersedia</span></td>'}
                         <td>
                             <div class="form-check">
@@ -358,7 +359,7 @@
                 <tr>
                 <th scope="row">${i}</th>
                 <td id="simple">${element.time}</td>
-                <td>Rp. ${element.price}</td>
+                <td>Rp ${element.price.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.")}</td>
                 <td>${element.point_required}</td>
                 </tr>${i += 1}
                 `
@@ -367,14 +368,22 @@
 
         console.table(keranjang);
         cost = 0
+        cost_rp=0
         keranjang.forEach(element => {
             cost += Number(element.point_required)
+            cost_rp += Number(element.price)
         });
 
         $('#tblPembayaran').append(`
             <tr>
-                <td colspan="3">Total</td>
-                <td>${cost}</td>
+                <td colspan="2"><strong>Total</strong></td>
+                <td>Rp ${cost_rp.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.")}</td>
+                <td><strong>${cost}</strong></td>
+            </tr>
+            <tr>
+                <td colspan="2"><strong>Bayar di tempat</strong></td>
+                <td><strong>Rp ${(cost_rp-(cost*1000)).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.")}</strong></td>
+                <td></td>
             </tr>
         `)
 
@@ -388,8 +397,6 @@
 
         $('.details').html(`
                     ${response.point < cost ? `<h6>Pointku: <span class="badge badge-pill badge-danger">${response.point}</span></h6>` : `<h6>Pointku: <span class="badge badge-pill badge-primary">${response.point}</span></h6>`}
-
-                    
                     `
         )
         console.log(response)

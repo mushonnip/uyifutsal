@@ -8,7 +8,7 @@ from django.dispatch import receiver
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     point = models.IntegerField(default=10, null=True, blank=True)
-    avatar = models.ImageField(default='avatar.png',height_field=None, width_field=None, max_length=None)
+    avatar = models.ImageField(default='avatar-2.jpg',height_field=None, width_field=None, max_length=None)
     
     def __str__(self):
         return self.user.username
@@ -55,17 +55,18 @@ class Time(models.Model):
 
 STATUS_CHOICES = (
    ('Selesai', 'Selesai'),
-   ('Belum Selesai', 'Belum Selesai')
+   ('Pending', 'Pending'),
+   ('Batal', 'Batal')
 )
 
 class Booking(models.Model):
-    booking_code = models.CharField(default=uuid.uuid1().hex[:3] + '-' + uuid.uuid4().hex[:3], max_length=50, editable=False)
+    booking_code = models.CharField(default=(uuid.uuid1().hex[:3] + '-' + uuid.uuid4().hex[:3]).upper(), max_length=50, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     field = models.ForeignKey(Field, on_delete=models.CASCADE)
     time = models.ForeignKey(Time, on_delete=models.CASCADE)
     date = models.DateField()
     timestamp = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(default='Belum Selesai', choices=STATUS_CHOICES, max_length=100)
+    status = models.CharField(default='Pending', choices=STATUS_CHOICES, max_length=100)
     
 
     # def get_time(self):
