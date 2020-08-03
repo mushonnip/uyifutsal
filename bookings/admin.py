@@ -13,7 +13,7 @@ class TimeAdmin(admin.ModelAdmin):
     list_display = ('pk', 'time', 'price')
 
 class BookingAdmin(admin.ModelAdmin):
-    list_display = ('booking_code', 'user', 'date', 'time')
+    list_display = ('booking_code', 'status', 'user', 'date', 'time')
 
 class ProfileInline(admin.StackedInline):
     model = Profile

@@ -2,7 +2,7 @@
     <nav class="pcoded-navbar">
         <div class="navbar-wrapper">
             <div class="navbar-brand header-logo">
-                <a target="_blank" href="https://appseed.us/admin-dashboards/django-dashboard-dattaable" class="b-brand">
+                <a target="_blank" href="/" class="b-brand">
                     <div class="b-bg">
                         <img src="{% static 'image/uyi.png' %}" alt="sample image"
                                 class="avatar rounded-circle" width="32">
@@ -14,25 +14,32 @@
             <div class="navbar-content scroll-div">
                 <ul class="nav pcoded-inner-navbar">
                     <li class="nav-item pcoded-menu-caption">
-                        <label>Menu</label>
+                        <label>Dashboard</label>
                     </li>
-                    <li data-username="dashboard Default Ecommerce CRM Analytics Crypto Project" class="nav-item {% if request.resolver_match.url_name == 'index' %}active{% endif %}">
-                        <a href="{% url 'sadmin:index' %}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Dashboard</span></a>
+                    
+                    {% if user.is_active and user.is_staff %}
+                        
+                    <li class="nav-item {% if request.resolver_match.url_name == 'index' %}active{% endif %}">
+                        <a href="{% url 'sadmin:index' %}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Home</span></a>
                     </li>
-                    <li data-username="Charts Morris" class="nav-item {% if request.resolver_match.url_name == 'jadwal' %}active{% endif %}"><a href="{% url 'sadmin:jadwal' %}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-clock"></i></span><span class="pcoded-mtext">Semua Jadwal</span></a></li>
-                    <li data-username="Maps Google" class="nav-item"><a href="/maps-google.html" class="nav-link "><span class="pcoded-micon"><i class="feather icon-map"></i></span><span class="pcoded-mtext">Maps</span></a></li>
-                   
-                    <li data-username="Authentication Sign up Sign in reset password Change password Personal information profile settings map form subscribe" class="nav-item pcoded-hasmenu">
+                    <li class="nav-item {% if request.resolver_match.url_name == 'users' %}active{% endif %}">
+                        <a href="{% url 'sadmin:users' %}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-users"></i></span><span class="pcoded-mtext">Pengguna</span></a>
+                    </li>
+                    <li class="nav-item {% if request.resolver_match.url_name == 'bookingan' %}active{% endif %}"><a href="{% url 'sadmin:bookingan' %}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-clock"></i></span><span class="pcoded-mtext">Bookingan</span></a></li>
+                    <li class="nav-item pcoded-hasmenu">
                         <a href="javascript:" class="nav-link "><span class="pcoded-micon"><i class="feather icon-lock"></i></span><span class="pcoded-mtext">Authentication</span></a>
                         <ul class="pcoded-submenu">
                             <li class=""><a href="/auth-reset-pass.html" class="">Reset Pass</a></li>
                             <li class=""><a href="#" class="">Register</a></li>
                         </ul>
                     </li>
-                    <li data-username="Sample Page" class="nav-item"><a href="/page-blank.html" class="nav-link"><span class="pcoded-micon"><i class="feather icon-sidebar"></i></span><span class="pcoded-mtext">Sample page</span></a></li>
-
+                    {% else %}
+                    <li class="nav-item {% if request.resolver_match.url_name == 'index' %}active{% endif %}">
+                        <a href="{% url 'sadmin:index' %}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Home</span></a>
+                    </li>
+                    {% endif %}
                     <li data-username="Disabled Menu" class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{% url 'logout' %}" class="nav-link">
                             <span class="pcoded-micon">
                                 <i class="feather icon-power"></i>
                             </span>

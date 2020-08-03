@@ -7,7 +7,7 @@ app_name = 'bookings'
 urlpatterns = [
     path("", views.IndexView.as_view(), name="index"),
     path('detail/<int:field_id>/', views.Detail, name='detail'),
-    path("dashboard/", views.Dashboard, name="dashboard"),
+    # path("dashboard/", views.Dashboard, name="dashboard"),
 
     # path('logout/', views.Logout, name='logout'),
     path('login/', views.Login, name='login'),

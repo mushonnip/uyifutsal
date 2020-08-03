@@ -43,7 +43,7 @@ class Price(models.Model):
     point_required = models.DecimalField(max_digits=5, decimal_places=0)
 
     def __str__(self):
-        return "Rp. {} ({})".format(self.price, self.point_required)
+        return "Rp {} ({})".format(self.price, self.point_required)
 
 class Time(models.Model):
     price = models.ForeignKey(Price, on_delete=models.CASCADE)

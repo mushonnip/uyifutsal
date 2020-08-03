@@ -1,0 +1,146 @@
+{% extends 'sadmin/layouts/base.html' %}
+
+{% block title %}
+    Pengguna
+{% endblock title %}
+    
+
+{% block content %}
+<div class="pcoded-content">
+    <div class="pcoded-inner-content">
+        <!-- [ breadcrumb ] start -->
+        <div class="page-header">
+            <div class="page-block">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <div class="page-header-title">
+                            <h5 class="m-b-10">Pengguna</h5>
+                        </div>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{% url 'sadmin:index' %}"><i
+                                        class="feather icon-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="#!">Pengguna</a></li>
+                            <!-- <li class="breadcrumb-item"><a href="javascript:">Basic Tables</a></li> -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- [ breadcrumb ] end -->
+        <div class="main-body">
+            <div class="page-wrapper">
+                <!-- [ Main Content ] start -->
+                <div class="row">
+                    <!-- [ basic-table ] start -->
+                    <div class="col-xl-12">
+                        <!-- [ Hover-table ] start -->
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="d-flex align-items-center">
+                                    <h5>Daftar Pengguna</h5>
+                                    <a href="" class="btn btn-primary btn-round ml-auto">
+                                        <i class="fa fa-plus"></i>
+                                        Add Pengguna
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="card-block table-border-style">
+                                <div class="table-responsive">
+                                    <table class="table table-hover" id="usersTable">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Username</th>
+                                                <th>Status</th>
+                                                <th>Point</th>
+                                                <th>Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="usersTableBody">
+                                            <!-- <tr>
+                                                <th scope="row">1</th>
+                                                <td>Mark</td>
+                                                <td>Otto</td>
+                                                <td>@mdo</td>
+                                            </tr> -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- [ Hover-table ] end -->
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block javascripts %}
+{% csrf_token %}
+<script>
+    var csrf_token = jQuery('[name=csrfmiddlewaretoken]').val();
+    $.ajaxSetup({
+        headers: {
+            'X-CSRFToken': csrf_token
+        }
+    });
+    $(document).ready(function () {
+        get_users()
+    });
+
+    // $('#usersTable').DataTable()
+    function get_users() {
+        $.ajax({
+            type: "POST",
+            url: "{% url 'sadmin:get-users' %}",
+            dataType: "JSON",
+            success: function (response) {
+                console.table(response)
+                setUsersTable(response)
+            },
+            error: function (response) {
+                console.log(response.responseText)
+            }
+        });
+    }
+
+    function setUsersTable(params) {
+        params.forEach(function (element, i) {
+            $('#usersTableBody').append(`
+                <tr class="unread">
+                    <td>${i + 1}</td>
+                        <td>
+                            <img class="rounded-circle" style="width:40px;" src="${element.fields.avatar}" alt="activity-user">
+                            <span class="text-muted">${element.fields.username}</span>
+                        </td>
+                        <td><h6 class="mb-1">${element.fields.is_active ? 'Aktif': 'Tidak Aktif'}</h6></td>
+                        <td>
+                            <h6 class="mb-1">${element.fields.point}</h6>
+                        </td>
+                        <td><div class="btn-group mb-2 mr-2">
+                                    <button class="btn btn-${element.fields.status == 'Selesai' ? 'success' : element.fields.status == 'Pending' ? 'warning' : 'danger'} dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">${element.fields.status}</button>
+                                    <div class="dropdown-menu">
+                                        ${element.fields.status == 'Selesai' ? `<a class="dropdown-item" onclick="updateBooking(${element.pk}, 'Pending')">Pending</a>
+                                                                                <a class="dropdown-item" onclick="updateBooking(${element.pk}, 'Batal')">Batal</a>
+                                                                                `: element.fields.status == 'Pending' ?
+                        `<a class="dropdown-item" onclick="updateBooking(${element.pk}, 'Selesai')">Selesai</a>
+                                                                                <a class="dropdown-item" onclick="updateBooking(${element.pk}, 'Batal')">Batal</a>
+                                                                                ` :
+                        `<a class="dropdown-item" onclick="updateBooking(${element.pk}, 'Selesai')">Selesai</a>
+                                                                                <a class="dropdown-item" onclick="updateBooking(${element.pk}, 'Pending')">Pending</a>
+                                                                                `}
+                                    </div>
+                                </div></td>
+                    </tr>`
+            )
+
+        });
+
+    }
+
+</script>
+{% endblock javascripts %}

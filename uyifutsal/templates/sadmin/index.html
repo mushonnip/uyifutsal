@@ -10,7 +10,23 @@
 <div class="pcoded-content">
     <div class="pcoded-inner-content">
         <!-- [ breadcrumb ] start -->
-
+        <div class="page-header">
+            <div class="page-block">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <div class="page-header-title">
+                            <h5 class="m-b-10">Home</h5>
+                        </div>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{% url 'sadmin:index' %}"><i
+                                        class="feather icon-home"></i></a></li>
+                            <li class="breadcrumb-item"></li>
+                            <!-- <li class="breadcrumb-item"><a href="javascript:">Basic Tables</a></li> -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- [ breadcrumb ] end -->
         <div class="main-body">
             <div class="page-wrapper">
@@ -24,7 +40,16 @@
                             </div>
                             <div class="card-block px-0 py-3">
                                 <div class="table-responsive">
-                                    <table class="table table-hover">
+                                    <table class="table table-hover" id="todayTable">
+                                        <!-- <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Gambar</th>
+                                                <th>Nama Anime</th>
+                                                <th>Episode</th>
+                                                <th>Produser</th>
+                                            </tr>
+                                        </thead> -->
                                         <tbody id="today">
 
                                         </tbody>
@@ -39,6 +64,16 @@
                     <div class="col-xl-4 col-md-6">
 
                         <div class="card">
+                            <div class="card-block border-bottom">
+                                <div class="row d-flex align-items-center">
+                                    <div class="col-auto">
+                                        <i class="feather icon-clock f-30 text-c-orange"></i>
+                                    </div>
+                                    <div class="col">
+                                        <h3 class="f-w-300" id="clock"></h3>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="card-block border-bottom">
                                 <div class="row d-flex align-items-center">
                                     <div class="col-auto">
@@ -74,17 +109,28 @@
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
+{% csrf_token %}
 <script>
-    var tuser =[];
+    var today_total = 0;
+    var csrf_token = jQuery('[name=csrfmiddlewaretoken]').val();
+    $.ajaxSetup({
+        headers: {
+            'X-CSRFToken': csrf_token
+        }
+    });
+    var tuser = [];
     $(document).ready(function () {
 
-    get_booking()
-
+        get_booking()
+        $('#todayTable').DataTable({
+            "pageLength": 50,
+        });
     });
 
     function setTodayTable(params) {
         params.forEach(element => {
             if (element.fields.date == moment().format('YYYY-MM-DD')) {
+                today_total++;
                 $('#today').append(`
                 <tr class="unread">
                     <td><img class="rounded-circle" style="width:40px;" src="${element.fields.avatar}" alt="activity-user"></td>
@@ -96,19 +142,19 @@
                             <p class="m-0">${element.fields.time}</p>
                         </td>
                         <td>
-                            <h6 class="text-muted"><i class="fas fa-circle text-c-${element.fields.status == 'Selesai' ? 'green': element.fields.status == 'Pending' ? 'yellow' : 'red'} f-10 m-r-15"></i></h6>           
+                            <h6 class="text-muted"><i class="fas fa-circle text-c-${element.fields.status == 'Selesai' ? 'green' : element.fields.status == 'Pending' ? 'yellow' : 'red'} f-10 m-r-15"></i></h6>           
                         </td>
                         <td><div class="btn-group mb-2 mr-2">
-                                    <button class="btn btn-${element.fields.status == 'Selesai' ? 'success': element.fields.status == 'Pending' ? 'warning' : 'danger'} dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">${element.fields.status}</button>
+                                    <button class="btn btn-${element.fields.status == 'Selesai' ? 'success' : element.fields.status == 'Pending' ? 'warning' : 'danger'} dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">${element.fields.status}</button>
                                     <div class="dropdown-menu">
-                                        ${element.fields.status == 'Selesai' ? `<a class="dropdown-item" href="#!">Pending</a>
-                                                                                <a class="dropdown-item" href="#!">Batal</a>
-                                                                                `: element.fields.status == 'Pending' ? 
-                                                                                `<a class="dropdown-item" href="#!">Selesai</a>
-                                                                                <a class="dropdown-item" href="#!">Batal</a>
-                                                                                ` : 
-                                                                                `<a class="dropdown-item" href="#!">Selesai</a>
-                                                                                <a class="dropdown-item" href="#!">Pending</a>
+                                        ${element.fields.status == 'Selesai' ? `<a class="dropdown-item" onclick="updateBooking(${element.pk}, 'Pending')">Pending</a>
+                                                                                <a class="dropdown-item" onclick="updateBooking(${element.pk}, 'Batal')">Batal</a>
+                                                                                `: element.fields.status == 'Pending' ?
+                            `<a class="dropdown-item" onclick="updateBooking(${element.pk}, 'Selesai')">Selesai</a>
+                                                                                <a class="dropdown-item" onclick="updateBooking(${element.pk}, 'Batal')">Batal</a>
+                                                                                ` :
+                            `<a class="dropdown-item" onclick="updateBooking(${element.pk}, 'Selesai')">Selesai</a>
+                                                                                <a class="dropdown-item" onclick="updateBooking(${element.pk}, 'Pending')">Pending</a>
                                                                                 `}
                                     </div>
                                 </div></td>
@@ -116,15 +162,17 @@
                 )
             }
         });
-        if (params.length >= 0) {
-            $('#today').append('<div class="text-center">KOSONG</div>')
+
+        if (today_total == 0) {
+            $('#today').html('<div class="text-center">KOSONG</div>')
         }
+
     }
 
     function get_booking() {
         $.ajax({
             type: "get",
-            url: "/sadmin/get-booking/",
+            url: "{% url 'sadmin:get-booking' %}",
             dataType: "JSON",
             success: response => {
                 console.table(response);
@@ -133,20 +181,41 @@
         });
     }
 
-    function get_user(params) {
+    function updateBooking(id, status) {
         $.ajax({
-            type: "GET",
-            url: "/sadmin/get-user/",
+            type: "POST",
+            url: "{% url 'sadmin:update-booking' %}",
             dataType: "JSON",
-            data:{
-                'id': params
+            data: {
+                'pk_id': id,
+                'status': status,
             },
             success: response => {
-                // console.table(response);
-                return response
+                swal("Berhasil!", "Status berhasil dirubah!", "success");
+                clearTable()
+                get_booking()
+            },
+            error: response => {
+                swal("Gagal!", "Status gagal dirubah!", "danger");
             }
         });
     }
+
+    function clearTable() {
+        $('#today').empty();
+    }
+
+    var span = document.getElementById('clock');
+
+    function time() {
+        var d = new Date();
+        var s = d.getSeconds();
+        var m = d.getMinutes();
+        var h = d.getHours();
+        span.textContent = h + ":" + m + ":" + s;
+    }
+
+    setInterval(time, 1000);
 
 </script>
 {% endblock javascripts %}
