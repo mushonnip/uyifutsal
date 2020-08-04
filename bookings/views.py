@@ -147,7 +147,7 @@ def GetSch(request):
                 sch_lists[i]['price'] = p['price']
                 sch_lists[i]['point_required'] = p['point_required']
         for a in book_lists:
-            if x['id'] == a['time_id']:
+            if x['id'] == a['time_id'] and a['status'] != 'Batal':
                 sch_lists[i]['status'] = 'booked'
     
 

@@ -7,7 +7,7 @@
                         <img src="{% static 'image/uyi.png' %}" alt="sample image"
                                 class="avatar rounded-circle" width="32">
                     </div>
-                    <span class="b-title">UYI Futsal Admin</span>
+                    <span class="b-title">UYI Futsal {% if user.is_admin %}Admin{% endif %}</span>
                 </a>
                 <a class="mobile-menu" id="mobile-collapse" href="javascript:"><span></span></a>
             </div>

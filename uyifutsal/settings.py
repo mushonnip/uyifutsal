@@ -16,7 +16,6 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 INSTALLED_APPS = [
     'jet.dashboard',
     'jet',
-    # 'jet_django',
     'sadmin',
     'uyifutsal',
     'bookings',

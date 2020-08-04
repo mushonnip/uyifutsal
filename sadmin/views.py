@@ -13,6 +13,13 @@ from django.contrib.admin.views.decorators import staff_member_required
 
 @login_required(login_url='/login')
 def Index(request):
+    if request.user.is_staff:
+        return IndexStaff(request)
+    else:
+        return IndexCustomer(request)
+
+@login_required(login_url='/login')
+def IndexStaff(request):
     bookings = Booking.objects.order_by('time')
     users = User.objects.all()
     context = {
@@ -20,6 +27,15 @@ def Index(request):
         'users': users,
     }
     return render(request, 'sadmin/index.html', context)
+
+
+@login_required(login_url='/login')
+def IndexCustomer(request):
+    bookings = Booking.objects.filter(user_id=request.user).order_by('time')
+    context = {
+        'bookings': bookings,
+    }
+    return render(request, 'sadmin/customer/index.html', context)
 
 @login_required(login_url='/login')
 def Bookingan(request):
@@ -58,11 +74,15 @@ def get_users(request):
     return JsonResponse(profiles_serialized, safe=False)
 
 @login_required(login_url='/login')
-@staff_member_required
 def get_booking(request):
     # date = datetime.datetime.now()
     # .filter(date=date.strftime("%Y-%m-%d"))
-    bookings = Booking.objects.all().order_by('time')
+    if request.user.is_staff:
+        bookings = Booking.objects.all().order_by('time')
+    else:
+
+        bookings = Booking.objects.all().filter(user=request.user).order_by('time')
+
     book_serialized = serializers.serialize('python', bookings)
 
     for x in book_serialized:
