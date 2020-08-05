@@ -1,47 +1,50 @@
-{% extends "sadmin/layouts/base.html" %}
-
-{% block title %} Dashboard {% endblock %}
+{% extends "sadmin/layouts/base.html" %} {% block title %} Dashboard {% endblock %}
 
 <!-- Specific CSS goes HERE -->
-{% block stylesheets %}{% endblock stylesheets %}
-
-{% block content %}
+{% block stylesheets %}
+<style>
+.datepicker{z-index:1151 !important;}
+</style>
+{% endblock stylesheets %} {% block content %}
 
 <div class="pcoded-content">
-    <div class="pcoded-inner-content">
-        <!-- [ breadcrumb ] start -->
-        <div class="page-header">
-            <div class="page-block">
-                <div class="row align-items-center">
-                    <div class="col-md-12">
-                        <div class="page-header-title">
-                            <h5 class="m-b-10">Home</h5>
-                        </div>
-                        <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{% url 'sadmin:index' %}"><i
-                                        class="feather icon-home"></i></a></li>
-                            <li class="breadcrumb-item"></li>
-                            <!-- <li class="breadcrumb-item"><a href="javascript:">Basic Tables</a></li> -->
-                        </ul>
-                    </div>
-                </div>
+  <div class="pcoded-inner-content">
+    <!-- [ breadcrumb ] start -->
+    <div class="page-header">
+      <div class="page-block">
+        <div class="row align-items-center">
+          <div class="col-md-12">
+            <div class="page-header-title">
+              <h5 class="m-b-10">Home</h5>
             </div>
+            <ul class="breadcrumb">
+              <li class="breadcrumb-item">
+                <a href="{% url 'sadmin:index' %}"
+                  ><i class="feather icon-home"></i
+                ></a>
+              </li>
+              <li class="breadcrumb-item"></li>
+              <!-- <li class="breadcrumb-item"><a href="javascript:">Basic Tables</a></li> -->
+            </ul>
+          </div>
         </div>
-        <!-- [ breadcrumb ] end -->
-        <div class="main-body">
-            <div class="page-wrapper">
-                <!-- [ Main Content ] start -->
-                <div class="row">
-                    <!--[ Recent Users ] start-->
-                    <div class="col-xl-8 col-md-6">
-                        <div class="card Recent-Users">
-                            <div class="card-header">
-                                <h5>Jadwal Hari Ini</h5>
-                            </div>
-                            <div class="card-block px-0 py-3">
-                                <div class="table-responsive">
-                                    <table class="table table-hover" id="todayTable">
-                                        <!-- <thead>
+      </div>
+    </div>
+    <!-- [ breadcrumb ] end -->
+    <div class="main-body">
+      <div class="page-wrapper">
+        <!-- [ Main Content ] start -->
+        <div class="row">
+          <!--[ Recent Users ] start-->
+          <div class="col-xl-8 col-md-6">
+            <div class="card Recent-Users">
+              <div class="card-header">
+                <h5>Jadwal Hari Ini</h5>
+              </div>
+              <div class="card-block px-0 py-3">
+                <div class="table-responsive">
+                  <table class="table table-hover" id="todayTable">
+                    <!-- <thead>
                                             <tr>
                                                 <th>No</th>
                                                 <th>Gambar</th>
@@ -50,172 +53,360 @@
                                                 <th>Produser</th>
                                             </tr>
                                         </thead> -->
-                                        <tbody id="today">
+                    <tbody id="today"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--[ Recent Users ] end-->
 
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
+          <!-- [ statistics year chart ] start -->
+          <div class="col-xl-4 col-md-6">
+            <div class="card">
+              <div class="card-block border-bottom">
+                <div class="row d-flex align-items-center">
+                  <div class="col-auto">
+                    <i class="feather icon-clock f-30 text-c-orange"></i>
+                  </div>
+                  <div class="col">
+                    <h3 class="f-w-300" id="clock"></h3>
+                  </div>
+                </div>
+              </div>
+              <div class="card-block border-bottom">
+                <div class="row d-flex align-items-center">
+                  <div class="col-auto">
+                    <i class="feather icon-list f-30 text-c-green"></i>
+                  </div>
+                  <div class="col">
+                    <h3 class="f-w-300">{{ bookings.count }}</h3>
+                    <span class="d-block text-uppercase">TOTAL BOOKINGAN</span>
+                  </div>
+                </div>
+              </div>
+              <div class="card-block border-bottom">
+                <div class="row d-flex align-items-center">
+                  <div class="col-auto">
+                    <i class="feather icon-users f-30 text-c-blue"></i>
+                  </div>
+                  <div class="col">
+                    <h3 class="f-w-300">{{ users.count }}</h3>
+                    <span class="d-block text-uppercase">TOTAL USERS</span>
+                  </div>
+                </div>
+              </div>
+              {% comment %}
+              <div class="card-block">
+                {% endcomment %}
+                <button
+                  class="btn btn-primary mt-2 ml-2"
+                  data-toggle="modal"
+                  data-target="#topup_modal"
+                >
+                  Quick Top Up
+                </button>
+                <button
+                  class="btn btn-primary mt-2 ml-2"
+                  data-toggle="modal"
+                  data-target="#booking_modal"
+                >
+                  Quick Booking
+                </button>
+                <div
+                  id="topup_modal"
+                  class="modal fade"
+                  tabindex="-1"
+                  role="dialog"
+                  aria-labelledby="topup_modalTitle"
+                  aria-hidden="true"
+                >
+                  <div
+                    class="modal-dialog modal-dialog-centered"
+                    role="document"
+                  >
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="topup_modalTitle">
+                          Quick Top Up
+                        </h5>
+                        <button
+                          type="button"
+                          class="close"
+                          data-dismiss="modal"
+                          aria-label="Close"
+                        >
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                          <div class="mb-2">User:</div>
+                        <select
+                          id="mySelect"
+                          class="js-example-basic-single"
+                          style="width: 10%"
+                          name="state"
+                        >
+                        </select>
+                        <div class="mt-4 mb-2">Jumlah Topup: </div>
+                        <input id="tambah_saldo" type="number" class="form-control form-control-sm w-50 mt-2" placeholder="" value="">
+                      </div>
+                      <div class="modal-footer">
+                        <button
+                          type="button"
+                          class="btn btn-secondary"
+                          data-dismiss="modal"
+                        >
+                          Close
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="topup()">
+                          Save changes
+                        </button>
+                      </div>
                     </div>
-                    <!--[ Recent Users ] end-->
-
-                    <!-- [ statistics year chart ] start -->
-                    <div class="col-xl-4 col-md-6">
-
-                        <div class="card">
-                            <div class="card-block border-bottom">
-                                <div class="row d-flex align-items-center">
-                                    <div class="col-auto">
-                                        <i class="feather icon-clock f-30 text-c-orange"></i>
-                                    </div>
-                                    <div class="col">
-                                        <h3 class="f-w-300" id="clock"></h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-block border-bottom">
-                                <div class="row d-flex align-items-center">
-                                    <div class="col-auto">
-                                        <i class="feather icon-list f-30 text-c-green"></i>
-                                    </div>
-                                    <div class="col">
-                                        <h3 class="f-w-300">{{ bookings.count }}</h3>
-                                        <span class="d-block text-uppercase">TOTAL BOOKINGAN</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-block">
-                                <div class="row d-flex align-items-center">
-                                    <div class="col-auto">
-                                        <i class="feather icon-users f-30 text-c-blue"></i>
-                                    </div>
-                                    <div class="col">
-                                        <h3 class="f-w-300">{{ users.count }}</h3>
-                                        <span class="d-block text-uppercase">TOTAL USERS</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                  </div>
+                </div>
+                 <div
+                  id="booking_modal"
+                  class="modal fade"
+                  tabindex="-1"
+                  role="dialog"
+                  aria-labelledby="topup_modalTitle"
+                  aria-hidden="true"
+                >
+                  <div
+                    class="modal-dialog modal-dialog-centered"
+                    role="document"
+                  >
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="topup_modalTitle2">
+                          Quick Booking
+                        </h5>
+                        <button
+                          type="button"
+                          class="close"
+                          data-dismiss="modal"
+                          aria-label="Close"
+                        >
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                          <div class="mb-2">User:</div>
+                        <select
+                          id="mySelect"
+                          class="js-example-basic-single"
+                          style="width: 10%"
+                          name="state"
+                        >
+                        </select>
+                        <div class="mt-4 mb-2">Jumlah Topup: </div>
+                        <input type="text" class="form-control datepicker" id="d_auto">
+                      </div>
+                      <div class="modal-footer">
+                        <button
+                          type="button"
+                          class="btn btn-secondary"
+                          data-dismiss="modal"
+                        >
+                          Close
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="topup()">
+                          Save changes
+                        </button>
+                      </div>
                     </div>
+                  </div>
                 </div>
                 <!-- [ Main Content ] end -->
+              </div>
             </div>
+          </div>
         </div>
-    </div>
-</div>
 
-{% endblock content %}
+        {% endblock content %}
 
-<!-- Specific Page JS goes HERE  -->
-{% block javascripts %}
-{% csrf_token %}
-<script>
-    var today_total = 0;
-    var csrf_token = jQuery('[name=csrfmiddlewaretoken]').val();
-    $.ajaxSetup({
-        headers: {
-            'X-CSRFToken': csrf_token
-        }
-    });
-    var tuser = [];
-    $(document).ready(function () {
+        <!-- Specific Page JS goes HERE  -->
+        {% block javascripts %} {% csrf_token %}
+        <script>
+          var today_total = 0;
+          var csrf_token = jQuery("[name=csrfmiddlewaretoken]").val();
+          $.ajaxSetup({
+            headers: {
+              "X-CSRFToken": csrf_token,
+            },
+          });
+          var tuser = [];
+           $(window).ready(function() {
+                            $('#d_auto').datepicker({
+                                autoclose: true
+                            });
+                        });
+          $(document).ready(function () {
+           
+            $("#mySelect").select2({
+              dropdownParent: $("#topup_modal"),
+            });
+            get_users();
+            get_booking();
+            $("#todayTable").DataTable({
+              pageLength: 50,
+            });
+          });
 
-        get_booking()
-        $('#todayTable').DataTable({
-            "pageLength": 50,
-        });
-    });
-
-    function setTodayTable(params) {
-        params.forEach(element => {
-            if (element.fields.date == moment().format('YYYY-MM-DD')) {
+          function setTodayTable(params) {
+            params.forEach((element) => {
+              if (element.fields.date == moment().format("YYYY-MM-DD")) {
                 today_total++;
-                $('#today').append(`
+                $("#today").append(`
                 <tr class="unread">
-                    <td><img class="rounded-circle" style="width:40px;" src="${element.fields.avatar}" alt="activity-user"></td>
+                    <td><img class="rounded-circle" style="width:40px;" src="${
+                      element.fields.avatar
+                    }" alt="activity-user"></td>
                         <td>
-                            <h6 class="text-muted">${element.fields.booking_code}</h6>
+                            <h6 class="text-muted">${
+                              element.fields.booking_code
+                            }</h6>
                         </td>
                         <td>
                             <h6 class="mb-1">${element.fields.user}</h6>
                             <p class="m-0">${element.fields.time}</p>
                         </td>
                         <td>
-                            <h6 class="text-muted"><i class="fas fa-circle text-c-${element.fields.status == 'Selesai' ? 'green' : element.fields.status == 'Pending' ? 'yellow' : 'red'} f-10 m-r-15"></i></h6>           
+                            <h6 class="text-muted"><i class="fas fa-circle text-c-${
+                              element.fields.status == "Selesai"
+                                ? "green"
+                                : element.fields.status == "Pending"
+                                ? "yellow"
+                                : "red"
+                            } f-10 m-r-15"></i></h6>           
                         </td>
                         <td><div class="btn-group mb-2 mr-2">
-                                    <button class="btn btn-${element.fields.status == 'Selesai' ? 'success' : element.fields.status == 'Pending' ? 'warning' : 'danger'} dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">${element.fields.status}</button>
+                                    <button class="btn btn-${
+                                      element.fields.status == "Selesai"
+                                        ? "success"
+                                        : element.fields.status == "Pending"
+                                        ? "warning"
+                                        : "danger"
+                                    } dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">${
+                  element.fields.status
+                }</button>
                                     <div class="dropdown-menu">
-                                        ${element.fields.status == 'Selesai' ? `<a class="dropdown-item" onclick="updateBooking(${element.pk}, 'Pending')">Pending</a>
+                                        ${
+                                          element.fields.status == "Selesai"
+                                            ? `<a class="dropdown-item" onclick="updateBooking(${element.pk}, 'Pending')">Pending</a>
                                                                                 <a class="dropdown-item" onclick="updateBooking(${element.pk}, 'Batal')">Batal</a>
-                                                                                `: element.fields.status == 'Pending' ?
-                            `<a class="dropdown-item" onclick="updateBooking(${element.pk}, 'Selesai')">Selesai</a>
+                                                                                `
+                                            : element.fields.status == "Pending"
+                                            ? `<a class="dropdown-item" onclick="updateBooking(${element.pk}, 'Selesai')">Selesai</a>
                                                                                 <a class="dropdown-item" onclick="updateBooking(${element.pk}, 'Batal')">Batal</a>
-                                                                                ` :
-                            `<a class="dropdown-item" onclick="updateBooking(${element.pk}, 'Selesai')">Selesai</a>
+                                                                                `
+                                            : `<a class="dropdown-item" onclick="updateBooking(${element.pk}, 'Selesai')">Selesai</a>
                                                                                 <a class="dropdown-item" onclick="updateBooking(${element.pk}, 'Pending')">Pending</a>
-                                                                                `}
+                                                                                `
+                                        }
                                     </div>
                                 </div></td>
-                    </tr>`
-                )
+                    </tr>`);
+              }
+            });
+
+            if (today_total == 0) {
+              $("#today").html('<div class="text-center">KOSONG</div>');
             }
-        });
+          }
 
-        if (today_total == 0) {
-            $('#today').html('<div class="text-center">KOSONG</div>')
-        }
-
-    }
-
-    function get_booking() {
-        $.ajax({
-            type: "get",
-            url: "{% url 'sadmin:get-booking' %}",
-            dataType: "JSON",
-            success: response => {
+          function get_booking() {
+            $.ajax({
+              type: "get",
+              url: "{% url 'sadmin:get-booking' %}",
+              dataType: "JSON",
+              success: (response) => {
                 console.table(response);
                 setTodayTable(response);
-            }
-        });
-    }
+              },
+            });
+          }
 
-    function updateBooking(id, status) {
-        $.ajax({
-            type: "POST",
-            url: "{% url 'sadmin:update-booking' %}",
-            dataType: "JSON",
-            data: {
-                'pk_id': id,
-                'status': status,
-            },
-            success: response => {
+          function get_users() {
+            $.ajax({
+              type: "get",
+              url: "{% url 'sadmin:get-users' %}",
+              dataType: "JSON",
+              success: (response) => {
+                setOption(response);
+                console.log(response);
+              },
+            });
+          }
+
+          function setOption(params) {
+            params.forEach((element) => {
+              var sel = document.getElementById("mySelect");
+              var opt = document.createElement("option");
+              opt.appendChild(document.createTextNode(element.fields.username));
+              opt.value = element.fields.user;
+              sel.appendChild(opt);
+            });
+          }
+
+          function topup() {
+              var u = $("#mySelect").val();
+              var s = $("#tambah_saldo").val();
+              $.ajax({
+                  type: "POST",
+                  url: `/topup-saldo/${u}/${s}/`,
+                  dataType: "JSON",
+                  success: function (response) {
+                      $("#topup_modal").modal("hide")
+                      swal("Berhasil!", "Topup!", "success");
+                      console.log("berhasil")
+                  },
+                  error: (response) => {
+                    swal("Gagal!", "Periksa kembali inputan!", "danger");
+                  },
+              });
+          }
+
+          function updateBooking(id, status) {
+            $.ajax({
+              type: "POST",
+              url: "{% url 'sadmin:update-booking' %}",
+              dataType: "JSON",
+              data: {
+                pk_id: id,
+                status: status,
+              },
+              success: (response) => {
                 swal("Berhasil!", "Status berhasil dirubah!", "success");
-                clearTable()
-                get_booking()
-            },
-            error: response => {
+                clearTable();
+                get_booking();
+              },
+              error: (response) => {
                 swal("Gagal!", "Status gagal dirubah!", "danger");
-            }
-        });
-    }
+              },
+            });
+          }
 
-    function clearTable() {
-        $('#today').empty();
-    }
+          function clearTable() {
+            $("#today").empty();
+          }
 
-    var span = document.getElementById('clock');
+          var span = document.getElementById("clock");
 
-    function time() {
-        var d = new Date();
-        var s = d.getSeconds();
-        var m = d.getMinutes();
-        var h = d.getHours();
-        span.textContent = h + ":" + m + ":" + s;
-    }
+          function time() {
+            var d = new Date();
+            var s = d.getSeconds();
+            var m = d.getMinutes();
+            var h = d.getHours();
+            span.textContent = h + ":" + m + ":" + s;
+          }
 
-    setInterval(time, 1000);
-
-</script>
-{% endblock javascripts %}
+          setInterval(time, 1000);
+        </script>
+        {% endblock javascripts %}
+      </div>
+    </div>
+  </div>
+</div>

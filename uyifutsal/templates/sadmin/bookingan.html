@@ -39,7 +39,8 @@
                 </ul>
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade active show" id="all" role="tabpanel" aria-labelledby="all-tab">
-                        <table class="table table-hover">
+                        <div class="table-responsive">
+                        <table id="tabel_booking" class="display table nowrap table-striped table-hover">
                             <thead>
                                 <tr>
                                     <th>User</th>
@@ -53,10 +54,11 @@
                             <tbody id="all_booking">
                             </tbody>
                         </table>
+                        </div>
 
                     </div>
                     <div class="tab-pane fade" id="weekly" role="tabpanel" aria-labelledby="weekly-tab">
-                        <table class="table table-hover">
+                        <table class="display table nowrap table-striped table-hover">
                             <thead>
                                 <tr>
                                     <th>User</th>
@@ -111,7 +113,7 @@
     $(document).ready(function () {
 
         get_booking()
-        $('#todayTable').DataTable({
+        $('#tabel').DataTable({
             "pageLength": 50,
         });
     });

@@ -53,7 +53,7 @@
                                                 <th>#</th>
                                                 <th>Username</th>
                                                 <th>Status</th>
-                                                <th>Point</th>
+                                                <th>Saldo</th>
                                                 <th>Aksi</th>
                                             </tr>
                                         </thead>
@@ -119,22 +119,13 @@
                         </td>
                         <td><h6 class="mb-1">${element.fields.is_active ? 'Aktif': 'Tidak Aktif'}</h6></td>
                         <td>
-                            <h6 class="mb-1">${element.fields.point}</h6>
+                            <h6 class="mb-1">Rp ${(element.fields.point).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.")}</h6>
                         </td>
-                        <td><div class="btn-group mb-2 mr-2">
-                                    <button class="btn btn-${element.fields.status == 'Selesai' ? 'success' : element.fields.status == 'Pending' ? 'warning' : 'danger'} dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">${element.fields.status}</button>
-                                    <div class="dropdown-menu">
-                                        ${element.fields.status == 'Selesai' ? `<a class="dropdown-item" onclick="updateBooking(${element.pk}, 'Pending')">Pending</a>
-                                                                                <a class="dropdown-item" onclick="updateBooking(${element.pk}, 'Batal')">Batal</a>
-                                                                                `: element.fields.status == 'Pending' ?
-                        `<a class="dropdown-item" onclick="updateBooking(${element.pk}, 'Selesai')">Selesai</a>
-                                                                                <a class="dropdown-item" onclick="updateBooking(${element.pk}, 'Batal')">Batal</a>
-                                                                                ` :
-                        `<a class="dropdown-item" onclick="updateBooking(${element.pk}, 'Selesai')">Selesai</a>
-                                                                                <a class="dropdown-item" onclick="updateBooking(${element.pk}, 'Pending')">Pending</a>
-                                                                                `}
-                                    </div>
-                                </div></td>
+                        <td>
+                            <button type="button" class="btn btn-icon btn-primary"><i class="feather icon-edit"></i></button>
+                            <button type="button" class="btn btn-icon btn-danger"><i class="feather icon-trash-2"></i></button>
+
+                        </td>
                     </tr>`
             )
 

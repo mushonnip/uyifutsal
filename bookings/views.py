@@ -29,6 +29,12 @@ def update_profile(request, user_id, new_point):
     user.profile.point = new_point
     user.save()
     
+def topup_saldo(request, user_id, saldo):
+    user = User.objects.get(pk=user_id)
+    user.profile.point = user.profile.point+saldo
+    user.save()
+    data = {'message': user.profile.point}
+    return HttpResponse(json.dumps(data), content_type='application/json')
 
 @login_required
 def add_booking(request, field_id):
@@ -105,13 +111,13 @@ def Login(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect(request.GET.get('next'))
+            if request.GET.get('next') is not None:
+                return redirect(request.GET.get('next'))
+            else:
+                return redirect('/')
         else:
             messages.error(request, 'Incorrect Username or Password')
             return render(request, 'login.html')
-        
-    
-
     context = {}
     return render(request, 'login.html')
 

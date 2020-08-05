@@ -16,6 +16,7 @@ urlpatterns = [
 
     path("create-booking/<int:field_id>/", views.add_booking, name="create_booking"),
     path("update-profile/<int:user_id>/<int:new_point>/", views.update_profile, name="update_profile"),
+    path("topup-saldo/<int:user_id>/<int:saldo>/", views.topup_saldo, name="topup_saldo"),
     path('get-sch/', views.GetSch, name='get_sch'),
     path('get-point/', views.get_point, name='get_point'),
 ]

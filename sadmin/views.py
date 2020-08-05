@@ -2,7 +2,7 @@ import json
 import datetime
 from django.http import Http404, HttpResponse
 from django.shortcuts import render
-from bookings.models import Booking, Time, Profile
+from bookings.models import Booking, Time, Profile, Field
 from django.contrib.auth.models import User
 from django.core import serializers
 from django.http.response import JsonResponse
@@ -89,6 +89,7 @@ def get_booking(request):
         x['fields']['avatar'] = Profile.objects.get(pk=x['fields']['user']).avatar.url
         x['fields']['user'] = User.objects.get(pk=x['fields']['user']).username
         x['fields']['time'] = Time.objects.get(pk=x['fields']['time']).time
+        x['fields']['name'] = Field.objects.get(pk=x['fields']['field']).name
 
     return JsonResponse(book_serialized, safe=False)
 

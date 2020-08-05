@@ -42,8 +42,8 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>User</th>
                                     <th>Lapangan</th>
+                                    <th>Kode Booking</th>
                                     <th>Tanggal</th>
                                     <th>Waktu</th>
                                     <th>Status</th>
@@ -111,8 +111,7 @@
     });
     var tuser = [];
     $(document).ready(function () {
-
-        get_booking()
+        get_booking();
         $('#todayTable').DataTable({
             "pageLength": 50,
         });
@@ -124,7 +123,9 @@
                 today_total++;
                 $('#all_booking').append(`
                 <tr class="unread">
-                    <td><img class="rounded-circle" style="width:40px;" src="${element.fields.avatar}" alt="activity-user"> ${element.fields.user}</td>
+                    <td>
+                            <h6 class="text-muted">${element.fields.name}</h6>
+                        </td>
                         <td>
                             <h6 class="text-muted">${element.fields.booking_code}</h6>
                         </td>
@@ -159,6 +160,8 @@
             }
         });
     }
+
+ 
 
     function updateBooking(id, status) {
         $.ajax({

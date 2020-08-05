@@ -1,4 +1,5 @@
 {% load static %}
+{% load humanize %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,6 +24,8 @@
     <link rel="stylesheet" href="{% static 'assets/plugins/animation/css/animate.min.css' %}">
     <!-- vendor css -->
     <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="http://html.codedthemes.com/datta-able/bootstrap/assets/plugins/bootstrap-datetimepicker/css/bootstrap-datepicker3.min.css">
 
 
     <!-- Specific CSS goes HERE -->
@@ -147,7 +150,7 @@
                                         {% else %}
                                         {{ user.username }}
                                         {% endif %}</strong></p>
-                                    <p><i class="fas fa-coins"> {{ user.profile.point }}</i></p>
+                                    <p><i class="fas fa-coins"> Rp {{ user.profile.point|intcomma }}</i></p>
                                 </div>
                             </div>
 
@@ -191,6 +194,10 @@
     <script src="/static/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
     <script src="/static/assets/js/pcoded.min.js"></script>
     <script src="/static/js/datatables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+
+
+<script src="http://html.codedthemes.com/datta-able/bootstrap/assets/plugins/bootstrap-datetimepicker/js/bootstrap-datepicker.min.js"></script>
 
 
     <!-- Specific Page JS goes HERE  -->

@@ -6,13 +6,21 @@
 {% block head %}
 <title>Detail</title>
 <style>
-    .navbar {
-        background-color: #6f7782;
-    }
+  .currencyinput {
+    border: 1px inset #ccc;
+  }
 
-    footer.page-footer {
-        background-color: #6f7782;
-    }
+  .currencyinput input {
+    border: 0;
+  }
+
+  .navbar {
+    background-color: #6f7782;
+  }
+
+  footer.page-footer {
+    background-color: #6f7782;
+  }
 </style>
 {% endblock head %}
 
@@ -20,51 +28,49 @@
 
 <!--Main Navigation-->
 <header>
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container">
-            <a class="navbar-brand" href="/"><strong>UYI Futsal</strong></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Jadwal</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Promo</a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav">
-                    {% if user.is_authenticated %}
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+      <a class="navbar-brand" href="/"><strong>UYI Futsal</strong></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Jadwal</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Promo</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav">
+          {% if user.is_authenticated %}
 
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">{% if user.get_full_name %}{{ user.get_full_name }}{% else %} {{ user.username }} {% endif %}
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="/dashboard">Dashboard</a>
-                            <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
-                        </div>
-                    </li>
-                    {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'bookings:login' %}">Login</a>
-                    </li>
-                    {% endif %}
-                    </li>
-                </ul>
-
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{% if user.get_full_name %}{{ user.get_full_name }}{% else %} {{ user.username }} {% endif %}
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="/dashboard">Dashboard</a>
+              <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
             </div>
-        </div>
-    </nav>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'bookings:login' %}">Login</a>
+          </li>
+          {% endif %}
+
+        </ul>
+
+      </div>
+    </div>
+  </nav>
 
 </header>
 <!--Main Navigation-->
@@ -72,148 +78,142 @@
 <!--Main Layout-->
 <main>
 
-    <div class="container">
+  <div class="container">
 
-        <!--Section: Blog v.4-->
-        <section class="section mt-5 pb-3 wow fadeIn">
-            <!--Grid row-->
-            <div class="row">
-                <div class="col-md-12">
-                    <!-- Card -->
-                    <div class="card card-cascade wider reverse">
-                        <!-- Card image -->
-                        <div class="view view-cascade overlay">
-                            <img class="card-img-top" src="{{ field.image.url }}" alt="{{ field.name }}">
-                            <a href="#!">
-                                <div class="mask rgba-white-slight"></div>
-                            </a>
-                        </div>
-
-                        <!--Post data-->
-                        <div class="card-body card-body-cascade text-center">
-                            <h2><a><strong>{{ field.name }}</strong></a></h2>
-                            <br>
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-md-3 orange-text pb-1">
-                                        <h6><i class="fas fa-sun"></i> 08.00 - 18.00<strong> Rp 80.000
-                                            </strong>
-                                        </h6>
-                                    </div>
-                                    <div class="col-md-6 brown-text pb-1">
-                                        <h6><i class="fas fa-moon"></i> 18.00 - 00.00<strong> Rp 120.000
-                                            </strong>
-                                        </h6>
-                                    </div>
-                                    <div class="col-md-3 green-text pb-1">
-                                        <h6><i class="fas fa-flag"></i><strong> {{ field.floor_type }}
-                                            </strong>
-                                        </h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--Post data-->
-                    </div><br>
-                    <hr class="mb-5">
-                    <h5>Jadwal</h5>
-                    <div class="md-form">
-                        <input placeholder="Selected date" type="text" id="prefill" class="form-control datepicker"
-                            data-value="now" name="date">
-                        <label for="prefill"></label>
-                    </div>
-                    <p>Filter:</p>
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="checkFilter">
-                        <label class="custom-control-label" for="checkFilter">Hanya yang tersedia</label>
-                    </div>
-                    <hr>
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th scope="col">Jam</th>
-                                <th scope="col">Harga</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Booking</th>
-                            </tr>
-                        </thead>
-                        <tbody class="searchable" id="scheduleTable">
-
-                        </tbody>
-                    </table>
-
-                    <!-- bayar -->
-                    <div class="modal fade" id="modalPembayaran" tabindex="-1" role="dialog"
-                        aria-labelledby="myModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header text-center">
-                                    <h4 class="modal-title w-100 font-weight-bold">Informasi Pembayaran</h4>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
-                                        id="btnClose">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body mx-3">
-                                    <div class="container-fluid">
-                                        <div class="row">
-                                            <div class="col-md-4 col-example"><strong>{{ field.name }}</strong></div>
-                                            <div class="col-md-4 ml-auto col-example tanggal"></div>
-                                        </div>
-                                    </div>
-
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">#</th>
-                                                <th scope="col">Waktu</th>
-                                                <th scope="col">Harga</th>
-                                                <th scope="col">Poin</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="tblPembayaran">
-                                        </tbody>
-                                    </table>
-                                    <div class="details">
-                                        <h6 class="">Poinmu sekarang:
-                                            <span class="spinner-grow spinner-grow-sm" role="status"></span>
-                                            <span class="sr-only">Loading...</span>
-                                        </h6>
-                                        <h6 class="">Biaya:
-                                            <span class="spinner-grow spinner-grow-sm" role="status"></span>
-                                            <span class="sr-only">Loading...</span>
-                                        </h6>
-
-                                    </div>
-                                </div>
-                                <div class="modal-footer d-flex justify-content-center">
-                                    <button class="btn btn-primary" onclick="bayar()">Bayar</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {% if user.is_authenticated %}
-                    <div class="text-center">
-                        <a class="btn btn-primary btn-rounded mb-4 btnPembayaran" id="btnPembayaran"
-                            onclick="pembayaran()">Pembayaran</a>
-                    </div>
-                    {% else %}
-                    <div class="text-center">
-                        <button type="button" class="btn btn-primary btn-rounded mb-4 btnPembayaran"
-                            disabled>Pembayaran</button>
-                        <p class="text-danger">Anda harus <a href="{% url 'bookings:login' %}">Login</a> untuk melakukan
-                            booking</p>
-                    </div>
-                    {% endif %}
-
-                    <!-- bayar -->
-                </div>
+    <!--Section: Blog v.4-->
+    <section class="section mt-5 pb-3 wow fadeIn">
+      <!--Grid row-->
+      <div class="row">
+        <div class="col-md-12">
+          <!-- Card -->
+          <div class="card card-cascade wider reverse">
+            <!-- Card image -->
+            <div class="view view-cascade overlay">
+              <img class="card-img-top" src="{{ field.image.url }}" alt="{{ field.name }}">
+              <a href="#!">
+                <div class="mask rgba-white-slight"></div>
+              </a>
             </div>
-            <!--Grid row-->
-        </section>
-        <!--Section: Blog v.4-->
-        <hr class="mb-5 mt-4">
+
+            <!--Post data-->
+            <div class="card-body card-body-cascade text-center">
+              <h2><a><strong>{{ field.name }}</strong></a></h2>
+              <br>
+              <div class="container">
+                <div class="row">
+                  <div class="col-md-3 orange-text pb-1">
+                    <h6><i class="fas fa-sun"></i> 08.00 - 18.00<strong> Rp 80.000
+                      </strong>
+                    </h6>
+                  </div>
+                  <div class="col-md-6 brown-text pb-1">
+                    <h6><i class="fas fa-moon"></i> 18.00 - 00.00<strong> Rp 120.000
+                      </strong>
+                    </h6>
+                  </div>
+                  <div class="col-md-3 green-text pb-1">
+                    <h6><i class="fas fa-flag"></i><strong> {{ field.floor_type }}
+                      </strong>
+                    </h6>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--Post data-->
+          </div><br>
+          <hr class="mb-5">
+          <h5>Jadwal</h5>
+          <div class="md-form">
+            <input placeholder="Selected date" type="text" id="prefill" class="form-control datepicker" data-value="now" name="date">
+            <label for="prefill"></label>
+          </div>
+          <p>Filter:</p>
+          <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="checkFilter">
+            <label class="custom-control-label" for="checkFilter">Hanya yang tersedia</label>
+          </div>
+          <hr>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Jam</th>
+                <th scope="col">Harga</th>
+                <th scope="col">Status</th>
+                <th scope="col">Booking</th>
+              </tr>
+            </thead>
+            <tbody class="searchable" id="scheduleTable">
+
+            </tbody>
+          </table>
+
+          <!-- bayar -->
+          <div class="modal fade" id="modalPembayaran" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header text-center">
+                  <h4 class="modal-title w-100 font-weight-bold">Informasi Pembayaran</h4>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="btnClose">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body mx-3">
+                  <div class="container-fluid">
+                    <div class="row">
+                      <div class="col-md-4 col-example"><strong>{{ field.name }}</strong></div>
+                      <div class="col-md-4 ml-auto col-example tanggal"></div>
+                    </div>
+                  </div>
+
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Waktu</th>
+                        <th scope="col">Harga</th>
+                      </tr>
+                    </thead>
+                    <tbody id="tblPembayaran">
+                    </tbody>
+                  </table>
+                  <div class="details">
+                    <h6 class="">Poinmu sekarang:
+                      <span class="spinner-grow spinner-grow-sm" role="status"></span>
+                      <span class="sr-only">Loading...</span>
+                    </h6>
+                    <h6 class="">Biaya:
+                      <span class="spinner-grow spinner-grow-sm" role="status"></span>
+                      <span class="sr-only">Loading...</span>
+                    </h6>
+
+                  </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                  <button class="btn btn-primary" onclick="bayar()">Bayar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {% if user.is_authenticated %}
+          <div class="text-center">
+            <a class="btn btn-primary btn-rounded mb-4 btnPembayaran" id="btnPembayaran" onclick="pembayaran()">Pembayaran</a>
+          </div>
+          {% else %}
+          <div class="text-center">
+            <button type="button" class="btn btn-primary btn-rounded mb-4 btnPembayaran" disabled>Pembayaran</button>
+            <p class="text-danger">Anda harus <a href="{% url 'bookings:login' %}">Login</a> untuk melakukan
+              booking</p>
+          </div>
+          {% endif %}
+
+          <!-- bayar -->
+        </div>
+      </div>
+      <!--Grid row-->
+    </section>
+    <!--Section: Blog v.4-->
+    <hr class="mb-5 mt-4">
 
 </main>
 <!--Main Layout-->
@@ -223,93 +223,94 @@
 {% csrf_token %}
 <script src="{% static 'js/moment-with-locales.js' %}"></script>
 <script>
-    var scheduleLength;
-    var schedule;
-    var tempChart;
-    var keranjang = [];
-    var dateValue
-    var cost = 0;
-    var cost_rp = 0;
-    var new_point = `{{ user.profile.point }}`;
-    var csrf_token = jQuery('[name=csrfmiddlewaretoken]').val();
-    moment.locale('id')
-    $.ajaxSetup({
-        headers: {
-            'X-CSRFToken': csrf_token
-        }
+  var scheduleLength;
+  var schedule;
+  var tempChart;
+  var keranjang = [];
+  var dateValue
+  var cost = 0;
+  var cost_rp = 0;
+  var cost_temp;
+  var new_point = `{{ user.profile.point }}`;
+  var csrf_token = jQuery('[name=csrfmiddlewaretoken]').val();
+  moment.locale('id')
+  $.ajaxSetup({
+    headers: {
+      'X-CSRFToken': csrf_token
+    }
+  });
+  $(document).ready(() => {
+
+    $(".button-collapse").sideNav();
+
+    $('#prefill').pickadate({
+      min: true,
     });
-    $(document).ready(() => {
 
-        $(".button-collapse").sideNav();
+    dateValue = moment($('.datepicker').val()).format('YYYY-MM-DD');
 
-        $('#prefill').pickadate({
-            min: true,
-        });
+    $('.datepicker').on('change', function() {
+      dateValue = moment($('.datepicker').val()).format('YYYY-MM-DD');
+      clearTable()
+      getSch(dateValue, `{{ field.id }}`);
+    });
 
-        dateValue = moment($('.datepicker').val()).format('YYYY-MM-DD');
+    getSch(dateValue, `{{ field.id }}`);
 
-        $('.datepicker').on('change', function () {
-            dateValue = moment($('.datepicker').val()).format('YYYY-MM-DD');
-            clearTable()
-            getSch(dateValue, `{{ field.id }}`);
-        });
 
-        getSch(dateValue, `{{ field.id }}`);
+  }); //document ready
 
-        
-    }); //document ready
+  function bayar() {
+    if (new_point < Number(cost_temp)) {
+      swal("Gagal!", "Saldomu tidak cukup", "error");
+    } else {
+      new_point -= Number(cost_temp)
+      $.ajax({
+        type: 'POST',
+        url: '/create-booking/{{ field.id }}/',
+        data: {
+          'date': dateValue,
+          'time': JSON.stringify(keranjang),
+          'new_point': new_point
+        },
+        success: function(data) {
+          console.log(data.message)
+          $("#modalPembayaran").modal('hide');
+          clearTable()
+          getSch(dateValue, `{{ field.id }}`);
+          swal("Berhasil!", "Kode bookingmu [" + data.message + "]", "success");
 
-    function bayar() {
-        if (new_point < cost) {
-            swal("Gagal!", "Pointmu tidak cukup", "error");
-        } else {
-            new_point -= cost
-            $.ajax({
-                type: 'POST',
-                url: '/create-booking/{{ field.id }}/',
-                data: {
-                    'date': dateValue,
-                    'time': JSON.stringify(keranjang),
-                    'new_point': new_point
-                },
-                success: function (data) {
-                    console.log(data.message)
-                    $("#modalPembayaran").modal('hide');
-                    clearTable()
-                    getSch(dateValue, `{{ field.id }}`);
-                    swal("Berhasil!", "Kode bookingmu [" + data.message + "]", "success");
-
-                },
-                error: function () {
-                    swal("Gagal!", "Silakan login dulu", "error");
-                }
-            })
+        },
+        error: function() {
+          swal("Gagal!", "Silakan login dulu", "error");
         }
+      })
     }
+  }
 
-    function getSch(date, field_id) {
-        $.ajax({
-            type: "get",
-            url: "/get-sch/",
-            dataType: "JSON",
-            data: {
-                _date: date,
-                _field_id: field_id,
-            },
-            success: response => {
-                console.table(response);
-                setDataTable(response);
-            }
-        });
-    }
+  function getSch(date, field_id) {
+    $.ajax({
+      type: "get",
+      url: "/get-sch/",
+      dataType: "JSON",
+      data: {
+        _date: date,
+        _field_id: field_id,
+      },
+      success: response => {
+        console.table(response);
+        setDataTable(response);
+      }
+    });
+  }
 
-    function setDataTable(params) {
-        params.forEach(element => {
-            if (element.id != null) {
-                tempChart = `{"id": ${element.id},"time":"${element.time}","price":"${element.price}", "point_required":"${element.point_required}"}`
+  function setDataTable(params) {
+    params.forEach(element => {
+      if (element.id != null) {
+        tempChart = `{"id": ${element.id},"time":"${element.time}","price":"${element.price}", "point_required":"${element.point_required}"}`
 
-                $('#scheduleTable').append(
-                    `<tr>
+        $('#scheduleTable').append(
+          `<tr>
                     <th scope="row">${element.time}</th>
                         <td>Rp ${element.price.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.")}</td>
                         ${element.status || ((Number(element.time.substring(0, 2)) <= moment(moment(), "hh").format('LT').substring(0, 2)) && dateValue == moment().format('YYYY-MM-DD')) ? '<td><span class="badge badge-danger">Tidak Tersedia</span></td>' : '<td><span class="badge badge-primary">Tersedia</span></td>'}
@@ -320,106 +321,123 @@
                             </div>
                         </td>
                 </tr>`
-                );
-            }
-        });
-    }
-
-
-    $('#checkFilter').on('change', function () {
-        if (this.checked) {
-            $('.searchable tr').hide();
-            $('.searchable tr').filter(function () {
-                return $(this).find('td').eq(1).text() == "Tersedia"
-            }).show();
-        } else {
-            $('.searchable tr').show();
-        }
+        );
+      }
     });
+  }
 
-    function clearTable() {
-        $('#scheduleTable').empty();
+
+  $('#checkFilter').on('change', function() {
+    if (this.checked) {
+      $('.searchable tr').hide();
+      $('.searchable tr').filter(function() {
+        return $(this).find('td').eq(1).text() == "Tersedia"
+      }).show();
+    } else {
+      $('.searchable tr').show();
     }
+  });
 
-    function pembayaran() {
+  function clearTable() {
+    $('#scheduleTable').empty();
+  }
 
-        $('.tanggal').text(moment(dateValue).format('LL'));
-        console.clear();
-        keranjang = []
-        $('#tblPembayaran').empty()
-        $.each($("input[name='time']:checked"), function () {
-            keranjang.push(JSON.parse($(this).val()));
+  function pembayaran() {
 
-        });
-        var i = 1;
+    $('.tanggal').text(moment(dateValue).format('LL'));
+    console.clear();
+    keranjang = []
+    $('#tblPembayaran').empty()
+    $.each($("input[name='time']:checked"), function() {
+      keranjang.push(JSON.parse($(this).val()));
 
-        keranjang.forEach(element => {
-            $('#tblPembayaran').append(
-                `
+    });
+    var i = 1;
+
+    keranjang.forEach(element => {
+      $('#tblPembayaran').append(
+        `
                 <tr>
                 <th scope="row">${i}</th>
                 <td id="simple">${element.time}</td>
                 <td>Rp ${element.price.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.")}</td>
-                <td>${element.point_required}</td>
                 </tr>${i += 1}
                 `
-            );
-        });
+      );
+    });
 
-        console.table(keranjang);
-        cost = 0
-        cost_rp=0
-        keranjang.forEach(element => {
-            cost += Number(element.point_required)
-            cost_rp += Number(element.price)
-        });
+    console.table(keranjang);
 
-        $('#tblPembayaran').append(`
+    cost = 0
+    cost_rp = 0
+    keranjang.forEach(element => {
+      cost = 10000 * keranjang.length
+      cost_rp += Number(element.price)
+    });
+    cost_temp = cost;
+
+    $('#tblPembayaran').append(`
             <tr>
                 <td colspan="2"><strong>Total</strong></td>
-                <td>Rp ${cost_rp.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.")}</td>
-                <td><strong>${cost}</strong></td>
+                <td><strong>Rp ${cost_rp.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.")}</strong></td>
+
             </tr>
             <tr>
                 <td colspan="2"><strong>Uang Muka</strong></td>
-                <td><input type="number" class="form-control" placeholder=""></td>
-                <td></td>
+                <td><input id="uang_muka" type="number" class="form-control form-control-sm w-50" placeholder="" value="${cost}"><small class="text-danger" id="errorMsg" style="display:none;">Minimum Rp ${cost}</small></td>
+
+
             </tr>
             <tr>
                 <td colspan="2"><strong>Bayar di tempat</strong></td>
-                <td><strong>Rp ${(cost_rp-(cost*1000)).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.")}</strong></td>
-                <td></td>
+                <td id="bayar_ditempat"><strong>Rp ${(cost_rp-cost).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.")}</strong></td>
             </tr>
         `)
 
-        $.ajax({
-            type: "POST",
-            url: "/get-point/",
-            data: {
-                'user_id': {{ user.id }}
-            },
-    success: function (response) {
+    $("#uang_muka").change(function() {
+      cost_temp = $('#uang_muka').val();
+
+      if ($('#uang_muka').val() < cost) {
+        $('#errorMsg').show();
+        $('#uang_muka').addClass('is-invalid');
+        $('#bayar_ditempat').html("");
+
+      } else {
+        $('#errorMsg').hide();
+
+        $('#bayar_ditempat').html(`<strong>Rp ${(cost_rp-cost_temp).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.")}</strong>`);
+        $('#uang_muka').removeClass('is-invalid');
+      }
+    });
+
+    $.ajax({
+      type: "POST",
+      url: "/get-point/",
+      data: {
+        'user_id': {
+          {
+            user.id
+          }
+        }
+      },
+      success: function(response) {
 
         $('.details').html(`
-                    ${response.point < cost ? `<h6>Pointku: <span class="badge badge-pill badge-danger">${response.point}</span></h6>` : `<h6>Pointku: <span class="badge badge-pill badge-primary">${response.point}</span></h6>`}
-                    `
-        )
+                    ${response.point < cost ? `<h6>Saldoku: Rp <span class="badge badge-pill badge-danger">${(response.point).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.")}</span></h6>` : `<h6>Saldoku: Rp <span class="badge badge-pill badge-primary">${(response.point).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1.")}</span></h6>`}
+                    `)
         console.log(response)
-    }
-        });
+      }
+    });
+
 
 
     if (cost == 0) {
-        $("#modalPembayaran").modal('hide');
-        swal("Gagal!", "Silakan pilih waktunya dulu", "error");
+      $("#modalPembayaran").modal('hide');
+      swal("Gagal!", "Silakan pilih waktunya dulu", "error");
     } else {
-        $("#modalPembayaran").modal('show')
+      $("#modalPembayaran").modal('show')
     }
-    }
-
-
-
-
+  }
 </script>
 
 {% endblock js %}
